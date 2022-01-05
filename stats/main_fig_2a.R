@@ -51,7 +51,6 @@ maastro_whole$site = factor(maastro_whole$site)
 maastro_whole$delta = maastro_whole$faceage - maastro_whole$chrono_age
 
 ## SITE AND INTENT
-maastro_pal = maastro_whole[which(maastro_whole$intent == 'pal'), ]
 maastro_cur = maastro_whole[which(maastro_whole$intent == 'cur'), ]
 
 # exclude DCIS patients
