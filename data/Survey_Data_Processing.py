@@ -1,5 +1,5 @@
 #
-# Script for processing survey results
+# Script for processing survey data
 #
 # The code and data of this repository are intended to promote reproducible research of the paper
 # "$PAPER_TITLE"
