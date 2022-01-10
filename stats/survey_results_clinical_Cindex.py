@@ -145,4 +145,4 @@ df_survmod_out['S11 surv'] = S11_CI
 df_survmod_out['Predicted Survival'] = PRED_CI
 
 # Write output to file
-df_survmod_out.to_csv('survey_p2_survmod_results_minusS9.csv', index = None)
+df_survmod_out.to_csv('survey_clinical_CI_results.csv', index = None)
