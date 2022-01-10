@@ -1,3 +1,20 @@
+#
+# Script for computing ROC/AUC of survey-takers' Performance predicting age and 6-month survival correspondence of palliative patients
+# with and without FaceAge augmentation
+#
+# The code and data of this repository are intended to promote reproducible research of the paper
+# "$PAPER_TITLE"
+# Details about the project can be found at the following webpage:
+# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+# NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+# AIM 2022
+
 import pandas as pd
 import numpy as np
 from sklearn import metrics
@@ -7,16 +24,13 @@ import sys
 # inputs
 path = './'
 db_age = 'survey_p1_age_out.csv'
-db_ecog = 'survey_p1_ecog_out.csv'
 db_surv = 'survey_p1_6mo_surv_out.csv'
 ref_file = 'Palliative-Survey.csv'
 
 # initialize dataframes
 df_age = pd.read_csv(path + db_age)
-df_ecog = pd.read_csv(path + db_ecog)
 df_surv = pd.read_csv(path + db_surv)
 df_age_out = pd.DataFrame()
-df_ecog_out = pd.DataFrame()
 df_surv_out = pd.DataFrame()
 
 # set number of columns (= number of survey takers)
