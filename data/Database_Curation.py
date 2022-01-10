@@ -151,4 +151,4 @@ survival_df = DF({'pmrn': proc_df['pmrn'],
 csv_proc = merge(proc_df, survival_df, on = 'pmrn')
 
 # save dataframe as csv
-csv_palliative_proc.to_csv(rootpath + datapath + 'database_curated.csv', index = False)
+csv_proc.to_csv(rootpath + datapath + 'database_curated.csv', index = False)
