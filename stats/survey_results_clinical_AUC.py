@@ -1,4 +1,3 @@
-
 #
 # Script for computing ROC/AUC of survey-takers' Performance predicting 6-month survival of palliative patients
 # with no clinical aid, with clinical info and with FaceAge risk model compared to FaceAge alone
