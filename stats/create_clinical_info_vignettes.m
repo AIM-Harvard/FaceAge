@@ -1,9 +1,28 @@
-path = 'C:\Users\ozala\Documents\PythonWork\FaceNet\results\Survey\Clinical-Information\';
+%
+% MATLAB script for automated creation of clinical info cards for survey
+%
+% The code and data of this repository are intended to promote reproducible research of the paper
+% "$PAPER_TITLE"
+% Details about the project can be found at the following webpage:
+% https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+% NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+% NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+% DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%
+% AIM 2021
+
+% define IO paths
+path = '.\';
 outpath = [path, 'clin_info_images\']
 
+% read data
 I = imread([path, 'ClinicalInfoSURVEY.jpg'])
 load('clinical_info.mat');
 
+% create datafields for clnical info card
 text_str = cell(10,1);
 for ii = 2:101
    disp(CancerType(ii))
@@ -28,6 +47,8 @@ for ii = 2:101
     disp(text_str{8})
     disp(text_str{9})
     disp(text_str{10})
+    
+    % position text data on card
     position = [50 100; 50 140; 50 180; 50 220; 50 260; ...
                 50 300; 50 340; 50 380; 50 420; 50 460;];
     box_color = {'white'};
@@ -35,6 +56,7 @@ for ii = 2:101
     RGB = insertText(I,position,text_str,'FontSize',18,'Font','LucidaSansDemiBold',...
         'BoxColor',box_color,'BoxOpacity',0.4,'TextColor','black');
     
+    % write card to file
     filename = [outpath, 'clininfo_', photo_id{ii}, '.jpg'];
     
     imwrite(RGB,filename,'jpeg');
