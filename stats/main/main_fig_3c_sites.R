@@ -1,6 +1,11 @@
+# -----------------
+# MAIN PAPER
+# FIGURE 3C
+# -----------------
+
 # The code and data of this repository are intended to promote reproducible research of the paper
 # "$PAPER_TITLE"
-# Details about the project can be found at the following webpage: 
+# Details about the project can be found at the following webpage:
 # https://aim.hms.harvard.edu/$FACEAGE_HANDLE
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
@@ -9,7 +14,8 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# This script was used to export some of the main figures from the paper.
+# AIM 2022
+
 # The numbers reported here can be obtained running the "main_fig_3c_stats.R" script.
 
 library(forestplot)

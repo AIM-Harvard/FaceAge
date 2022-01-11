@@ -1,6 +1,6 @@
 # -----------------
 # MAIN PAPER
-# FIGURE 3A
+# FIGURE 3B
 # -----------------
 
 # The code and data of this repository are intended to promote reproducible research of the paper
@@ -94,6 +94,7 @@ maastro_whole$ratio = (maastro_whole$faceage/maastro_whole$chrono_age)
 ## SITE AND INTENT
 maastro_cur = maastro_whole[which(maastro_whole$intent == 'cur'), ]
 
+# exclude DCIS patients
 maastro_cur = maastro_cur[-which(maastro_cur$site == "0_MAM" & maastro_cur$exclude == 1), ]
 
 data_breast = maastro_cur[which(maastro_cur$site == '0_MAM'), ]
@@ -106,34 +107,51 @@ data_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 ## ----------------------------------------------------------
 ## ----------------------------------------------------------
 
-# DeepCAC
-custom_palette = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728")
+## -- FaceAge --
+
+uva = coxph(Surv(days_survived, death) ~ faceage_group,
+            data = maastro_cur)
+uva_summary = summary(uva)
+
+uva_res = data.frame(round(uva_summary$conf.int[,-2], 5), 
+                     "p-value" = round(uva_summary$coefficients[ , "Pr(>|z|)"], 20))
+
+uva_res$p.value = round(uva_res$p.value, 5)
+uva_res$p.value[which(uva_res$p.value < 0.001)] = "< 0.001"
+
+uva_res$CI = paste(uva_res$lower..95, "-",
+                   uva_res$upper..95, sep = "")
+
+uva_res = uva_res[, c("exp.coef.","CI","p.value")]
+uva_res = rename(uva_res, c("HR" = "exp.coef.",
+                            "p value" = "p.value"))
 
 
-fit <- survfit(Surv(days_survived, death) ~ faceage_group, data = maastro_cur)
-fit_diff = survdiff(Surv(days_survived, death) ~ faceage_group, data = maastro_cur)
+cat(sprintf("N=%g, N Events=%g\n", uva_res$n, uva_res$nevent))
+print(uva_res)
 
-ggsurvplot(fit = fit,
-           surv.scale = "percent",
-           size = 0.75,
-           ## -- risk table --
-           risk.table = TRUE,
-           tables.theme = theme_cleantable(),
-           risk.table.height = 0.225,
-           ## -- conf int and censor --
-           conf.int = FALSE, conf.int.style = "step",
-           censor = FALSE, censor.size = 1,
-           ## -- log rank and stats --
-           pval = TRUE, pval.method = TRUE,
-           log.rank.weights = "1",
-           ## -- axes --
-           xlim = c(0, 2700), xscale = "d_y", break.time.by = 365.25,
-           xlab = 'Time (Years)', ylab = "Survival Probability [%]",
-           ## -- legend and theme --
-           legend.labs = c("FaceAge ≤ 65", "65 < FaceAge ≤ 75",
-                           "75 < FaceAge ≤ 85", "FaceAge > 85"),
-           palette = custom_palette,
-           legend.title = "",
-           ggtheme = theme_classic2(base_size = 16, base_family = "Times New Roman"),
-           font.family = "Times New Roman")
+## ----------------------------------------------------------
+## ----------------------------------------------------------
 
+## -- Corrected for Age, Gender, and Site (should be used with the whole cohort only) --
+
+mva_agsite = coxph(Surv(days_survived, death) ~ faceage_group + chrono_age + site + sex,
+                   data = maastro_cur)
+mva_agsite_summary = summary(mva_agsite)
+
+mva_agsite_res = data.frame(round(mva_agsite_summary$conf.int[,-2], 5), 
+                            "p-value" = round(mva_agsite_summary$coefficients[ , "Pr(>|z|)"], 20))
+
+mva_agsite_res$p.value = round(mva_agsite_res$p.value, 5)
+mva_agsite_res$p.value[which(mva_agsite_res$p.value < 0.001)] = "< 0.001"
+
+mva_agsite_res$CI = paste(mva_agsite_res$lower..95, "-",
+                          mva_agsite_res$upper..95, sep = "")
+
+mva_agsite_res = mva_agsite_res[, c("exp.coef.","CI","p.value")]
+mva_agsite_res = rename(mva_agsite_res, c("HR" = "exp.coef.",
+                                          "p value" = "p.value"))
+
+
+cat(sprintf("N=%g, N Events=%g\n", mva_agsite_res$n, mva_agsite_res$nevent))
+print(mva_agsite_res)

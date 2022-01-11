@@ -1,6 +1,6 @@
 # -----------------
-# MAIN PAPER
-# FIGURE 2D
+# EXTENDED DATA
+# FIGURE 2C
 # -----------------
 
 # The code and data of this repository are intended to promote reproducible research of the paper
@@ -16,9 +16,10 @@
 
 # AIM 2022
 
-library(survival)
-library(survcomp)
-library(survminer)
+library(data.table)
+
+library(beeswarm)
+library(raincloudplots)
 
 library(plyr)
 library(dplyr)
@@ -26,64 +27,44 @@ library(tidyr)
 
 library(ggplot2)
 library(ggthemes)
-library(ggbeeswarm)
 library(pheatmap)
+library(ggbeeswarm)
 
 ## ----------------------------------------------------------
 ## ----------------------------------------------------------
 
-# MAASTRO cohort
-maastro_base_path = "/mnt/data1/FaceAge/stats"
-maastro_file_name = "stats_maastro_cur_qa_all.csv"
-maastro_file_path = file.path(maastro_base_path, maastro_file_name)
+res_base_path <- "/mnt/data1/FaceAge/stats"
 
-maastro_cur = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
+# Thoracic cohort - 0 is male
+thor_csv_name <- "11286-thoracic.csv"
+thor_csv_path <- file.path(res_base_path, thor_csv_name)
 
-# fix empty in $smoking
-maastro_cur$smoking[which(maastro_cur$smoking == "")] = NA
-maastro_cur$smoking[which(maastro_cur$smoking == "passive")] = NA
+thor_df <- read.csv(file = thor_csv_path, stringsAsFactors = FALSE)
+thor_df <- rename(thor_df, c("ECOG" = "ps"))
 
-# convert sex = M/F in 0/1
-maastro_cur$sex = factor(maastro_cur$sex)
-maastro_cur$sex_int = NA
-maastro_cur$sex_int[which(maastro_cur$sex == 'M')] = 0
-maastro_cur$sex_int[which(maastro_cur$sex == 'F')] = 1
+# Palliative cohort
+pall_csv_name <- "17669-palliative.csv"
+pall_csv_path <- file.path(res_base_path, pall_csv_name)
 
-# group the smaller sites
-maastro_cur$site[which(maastro_cur$site == "UNK")] = "OTH"
-maastro_cur$site[which(maastro_cur$site == "NEU")] = "OTH"
-maastro_cur$site[which(maastro_cur$site == "HEM")] = "OTH"
-maastro_cur$site[which(maastro_cur$site == "DER")] = "OTH"
-maastro_cur$site[which(maastro_cur$site == "ALG")] = "OTH"
-maastro_cur$site[which(maastro_cur$site == "SAR")] = "OTH"
-maastro_cur$site[which(maastro_cur$site == "GYN")] = "OTH"
-
-maastro_cur$site = factor(maastro_cur$site)
-maastro_cur$delta = (maastro_cur$faceage - maastro_cur$chrono_age)
-
-## SITE AND INTENT
-
-# exclude DCIS patients
-maastro_cur = maastro_cur[-which(maastro_cur$site == "MAM" & maastro_cur$exclude == 1), ]
-
-maastro_breast = maastro_cur[which(maastro_cur$site == 'MAM'), ]
-maastro_gi = maastro_cur[which(maastro_cur$site == 'GE'), ]
-maastro_gu = maastro_cur[which(maastro_cur$site == 'URO'), ]
-maastro_lung = maastro_cur[which(maastro_cur$site == 'LON'), ]
-maastro_hn = maastro_cur[which(maastro_cur$site == 'KNO'), ]
-maastro_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
+pall_df <- read.csv(file = pall_csv_path, stringsAsFactors = FALSE)
 
 ## ----------------------------------------------------------
+## ----------------------------------------------------------
 
-maastro_cur <- rename(maastro_cur, c("ECOG" = "ps"))
+tmp_a = thor_df[c("chronologic.age", "face.age", "ECOG")]
+tmp_a$source = "Thoracic"
 
-sel_cohort = maastro_cur
+tmp_b = pall_df[c("chronologic.age", "face.age", "ECOG")]
+tmp_b$source = "Palliative"
+
+sel_cohort = rbind(tmp_a, tmp_b)
+
 sel_cohort = sel_cohort %>% drop_na(ECOG)
-
+sel_cohort$delta = sel_cohort$face.age - sel_cohort$chronologic.age
 sel_cohort$ECOG = factor(sel_cohort$ECOG)
 
-site_name = "MAASTRO"
-custom_palette = c("#00b4d8", "#0077b6", "#03045e", "#03045e")
+site_name = "HARVARD"
+custom_palette = c("#00b4d8", "#0077b6", "#03045e", "#03045e", "#03045e")
 
 median_zero = median(sel_cohort$delta[which(sel_cohort$ECOG == 0)])
 
@@ -99,12 +80,12 @@ custom_names = c(sprintf("0\n(n = %g)\n", ecog_zero),
                  sprintf("3\n(n = %g)\n", ecog_three),
                  sprintf("4\n(n = %g)\n", ecog_four))
 
-
 gtheme <- theme(text = element_text(family = "Times New Roman"),
                 axis.title.x = element_text(size = 16, margin = unit(c(6, 0, 0, 0), "mm")),
                 axis.text.x = element_text(size = 13),
                 axis.title.y = element_text(size = 16, margin = unit(c(0, 6, 0, 0), "mm")),
                 axis.text.y = element_text(size = 13))
+
 
 ggplot(sel_cohort, aes(x = ECOG, y = delta, fill = ECOG, col = ECOG)) +
   geom_abline(slope = 0, col = "black", size = 0.25) +
@@ -113,7 +94,8 @@ ggplot(sel_cohort, aes(x = ECOG, y = delta, fill = ECOG, col = ECOG)) +
   geom_beeswarm(priority = 'density', size = 1/2, alpha = 2/10, cex = 2/3) + 
   
   geom_boxplot(aes(x = ECOG, y = delta, group = ECOG),
-               notch = FALSE, size = 1/3, alpha = 1, colour = "grey30",
+               notch = FALSE, size = 1/3, alpha = 1,
+               colour = "grey30", border = "black",
                fill = NA, outlier.shape = NA, width = 2/5, notchwidth = 1/5) + 
   
   ylab('FaceAge - Age') + xlab("ECOG") +
@@ -137,10 +119,13 @@ ecog0 = sel_cohort[which(sel_cohort$ECOG == 0), ]
 ecog1 = sel_cohort[which(sel_cohort$ECOG == 1), ]
 ecog2 = sel_cohort[which(sel_cohort$ECOG == 2), ]
 ecog3 = sel_cohort[which(sel_cohort$ECOG == 3), ]
+ecog4 = sel_cohort[which(sel_cohort$ECOG == 4), ]
 
 pval_df <- data.frame(matrix(ncol = 4, nrow = 4))
-names(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3")
-rownames(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3")
+pval_df <- data.frame(matrix(ncol = 5, nrow = 5))
+
+names(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3", "ECOG 4")
+rownames(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3", "ECOG 4")
 
 stat_test = wilcox.test
 #stat_test = t.test
@@ -149,23 +134,29 @@ pval_df[1, 1] = stat_test(x = ecog0$delta, y = ecog0$delta, paired = FALSE, alte
 pval_df[1, 2] = stat_test(x = ecog0$delta, y = ecog1$delta, paired = FALSE, alternative = "two.sided")$p.value
 pval_df[1, 3] = stat_test(x = ecog0$delta, y = ecog2$delta, paired = FALSE, alternative = "two.sided")$p.value
 pval_df[1, 4] = stat_test(x = ecog0$delta, y = ecog3$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 5] = stat_test(x = ecog0$delta, y = ecog4$delta, paired = FALSE, alternative = "two.sided")$p.value
 
 pval_df[2, 2] = stat_test(x = ecog1$delta, y = ecog1$delta, paired = FALSE, alternative = "two.sided")$p.value
 pval_df[2, 3] = stat_test(x = ecog1$delta, y = ecog2$delta, paired = FALSE, alternative = "two.sided")$p.value
 pval_df[2, 4] = stat_test(x = ecog1$delta, y = ecog3$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[2, 5] = stat_test(x = ecog1$delta, y = ecog4$delta, paired = FALSE, alternative = "two.sided")$p.value
 
 pval_df[3, 3] = stat_test(x = ecog2$delta, y = ecog2$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[3, 4] = stat_test(x = ecog2$delta, y = ecog2$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[3, 4] = stat_test(x = ecog2$delta, y = ecog3$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[3, 5] = stat_test(x = ecog2$delta, y = ecog4$delta, paired = FALSE, alternative = "two.sided")$p.value
 
 pval_df[4, 4] = stat_test(x = ecog3$delta, y = ecog3$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[4, 5] = stat_test(x = ecog3$delta, y = ecog4$delta, paired = FALSE, alternative = "two.sided")$p.value
 
-dat <- matrix(rnorm(16, 4, 1), ncol = 4)
-names(dat) <- paste("ECOG", 1:4)
+pval_df[5, 5] = stat_test(x = ecog4$delta, y = ecog4$delta, paired = FALSE, alternative = "two.sided")$p.value
+
+dat <- matrix(rnorm(25, 5, 1), ncol = 5)
+names(dat) <- paste("ECOG", 1:5)
 
 pheatmap(pval_df, display_numbers = T, cluster_rows = F, cluster_cols = F,
          show_rownames = TRUE, show_colnames = TRUE, na_col = "white", border_color = "grey60",
          number_color = "black", legend = FALSE,
-         labels_row = paste0("ECOG ", 0:3), labels_col = paste0("ECOG ", 0:3),
+         labels_row = paste0("ECOG ", 0:4), labels_col = paste0("ECOG ", 0:4),
          number_format = "%1.3f", fontsize_number = 15, fontsize_row = 15, fontsize_col = 15,
          fontfamily = "Times New Roman")
 

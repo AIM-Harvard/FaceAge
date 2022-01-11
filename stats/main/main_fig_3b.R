@@ -1,3 +1,24 @@
+# -----------------
+# MAIN PAPER
+# FIGURE 3B
+# -----------------
+
+# The code and data of this repository are intended to promote reproducible research of the paper
+# "$PAPER_TITLE"
+# Details about the project can be found at the following webpage:
+# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+# NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+# AIM 2022
+
+# The numbers reported here can be obtained running the "main_fig_3b_stats.R" script.
+
+
 library(forestplot)
 library(dplyr)
 
@@ -23,7 +44,7 @@ pvals_uva = c("p value", " - ", "< 0.001", "< 0.001", "< 0.001")
 
 ## --------------------------------------------
 
-## -- Corrected for Age, Gender, and Site (should be used with the whole cohort only) --
+## -- MVA --
 
 df_mva <- structure(list(mean  = c(NA, 1, 0.98354, 1.25260, 1.46775), 
                          lower = c(NA, 1, 0.84122, 1.04219, 1.11673),

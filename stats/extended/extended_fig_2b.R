@@ -1,6 +1,6 @@
 # -----------------
-# MAIN PAPER
-# FIGURE 2C
+# EXTENDED DATA
+# FIGURE 2B
 # -----------------
 
 # The code and data of this repository are intended to promote reproducible research of the paper
@@ -26,7 +26,10 @@ library(tidyr)
 
 library(ggplot2)
 library(ggthemes)
+library(ggpubr)
+library(ggExtra)
 library(ggbeeswarm)
+
 library(pheatmap)
 
 ## ----------------------------------------------------------

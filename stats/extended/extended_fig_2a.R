@@ -1,6 +1,6 @@
 # -----------------
-# MAIN PAPER
-# FIGURE 2B
+# EXTENDED DATA
+# FIGURE 2A
 # -----------------
 
 # The code and data of this repository are intended to promote reproducible research of the paper
@@ -16,9 +16,10 @@
 
 # AIM 2022
 
-library(survival)
-library(survcomp)
-library(survminer)
+library(data.table)
+
+library(beeswarm)
+library(raincloudplots)
 
 library(plyr)
 library(dplyr)
@@ -26,8 +27,8 @@ library(tidyr)
 
 library(ggplot2)
 library(ggthemes)
-library(ggbeeswarm)
 library(pheatmap)
+library(ggbeeswarm)
 
 ## ----------------------------------------------------------
 ## ----------------------------------------------------------
@@ -42,6 +43,9 @@ maastro_cur = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
 # fix empty in $smoking
 maastro_cur$smoking[which(maastro_cur$smoking == "")] = NA
 maastro_cur$smoking[which(maastro_cur$smoking == "passive")] = NA
+
+# exclude DCIS patients
+maastro_cur = maastro_cur[-which(maastro_cur$site == "MAM" & maastro_cur$exclude == 1), ]
 
 # convert sex = M/F in 0/1
 maastro_cur$sex = factor(maastro_cur$sex)
@@ -58,13 +62,15 @@ maastro_cur$site[which(maastro_cur$site == "ALG")] = "OTH"
 maastro_cur$site[which(maastro_cur$site == "SAR")] = "OTH"
 maastro_cur$site[which(maastro_cur$site == "GYN")] = "OTH"
 
-maastro_cur$site = factor(maastro_cur$site)
+
+# results per decade
+maastro_cur$dec_faceage = NA
+maastro_cur$dec_faceage = 0.1 * maastro_cur$faceage
+
+maastro_cur$dec_chrono_age = NA
+maastro_cur$dec_chrono_age = 0.1 * maastro_cur$chrono_age
+
 maastro_cur$delta = (maastro_cur$faceage - maastro_cur$chrono_age)
-
-## SITE AND INTENT
-
-# exclude DCIS patients
-maastro_cur = maastro_cur[-which(maastro_cur$site == "MAM" & maastro_cur$exclude == 1), ]
 
 maastro_breast = maastro_cur[which(maastro_cur$site == 'MAM'), ]
 maastro_gi = maastro_cur[which(maastro_cur$site == 'GE'), ]
@@ -75,13 +81,10 @@ maastro_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 
 ## ----------------------------------------------------------
 
-# SMOKERS ONLY
+## -- BOXPLOTS  --
 
 maastro_to_plot = maastro_cur
 maastro_to_plot = maastro_to_plot %>% drop_na(smoking)
-
-site_name = "MAASTRO"
-custom_palette = c("#e63946", "#f8961e", "#52b788")
 
 never_delta = median(maastro_to_plot$delta[which(maastro_to_plot$smoking == "never")])
 
@@ -89,56 +92,62 @@ num_never = nrow(maastro_to_plot[which(maastro_to_plot$smoking == "never"), ])
 num_current = nrow(maastro_to_plot[which(maastro_to_plot$smoking == "current"), ])
 num_former = nrow(maastro_to_plot[which(maastro_to_plot$smoking == "former"), ])
 
-custom_names = c(sprintf("Current\n(n = %g)\n", num_current), 
-                 sprintf("Former\n(n = %g)\n", num_former), 
-                 sprintf("Never\n(n = %g)\n", num_never))
+custom_palette = c("#e63946", "#f8961e", "#52b788")
 
-## ----------------------------------------------------------
+sites_key = c("MAM", "URO", "GE", "LON", "KNO", "OTH")
+sites_names = c("Breast", "GU", "GI", "Lung", "H&N", "Other")
+
+for(idx in 1:length(sites_key)){
+  name = sites_key[idx]
+  n_pat = nrow(maastro_to_plot[which(maastro_to_plot$site == name), ])
+  sites_names[idx] = paste(sites_names[idx], sprintf("\n(n=%g)", n_pat), sep = "")
+}
 
 gtheme <- theme(text = element_text(family = "Times New Roman"),
                 axis.title.x = element_text(size = 16, margin = unit(c(6, 0, 0, 0), "mm")),
-                axis.text.x = element_text(size = 13),
+                axis.text.x = element_text(size = 14),
                 axis.title.y = element_text(size = 16, margin = unit(c(0, 6, 0, 0), "mm")),
-                axis.text.y = element_text(size = 13))
+                axis.text.y = element_text(size = 14))
 
-ggplot(maastro_to_plot, aes(x = smoking, y = delta, col = smoking)) +
+
+ggplot(maastro_to_plot, aes(x = factor(site, levels = c("MAM", "URO", "GE", "LON", "KNO", "OTH"), ordered = TRUE),
+                            y = delta, col = factor(smoking))) +
   
   geom_abline(slope = 0, col = "black", size = 0.25) +
   
-  geom_beeswarm(priority = 'density', size = 1/2, alpha = 2/10, cex = 2/3) + 
-  
   geom_boxplot(data = maastro_to_plot,
                notch = FALSE, size = 1/3, alpha = 1,
-               colour = "grey30", fill = NA, outlier.shape = NA, width = 2/5, notchwidth = 1/5) + 
+               fill = NA, outlier.shape = NA, width = 4/5, notchwidth = 1/5) +
   
-  geom_signif(comparisons = list(c("current", "former"), c("never", "current")), 
-              map_signif_level = TRUE, y_position = c(31, 34),
-              color = "black", size = 0.2, vjust = 0.5) + 
+  geom_beeswarm(dodge.width = 4/5, priority = 'density', size = 1/2, alpha = 4/10, cex = 2/5) +
   
-  scale_fill_manual(values = custom_palette) +
+  ylab('FaceAge - Age') + xlab("Site") +
+  
   scale_colour_manual(values = custom_palette) +
-  ylab('FaceAge - Age') + xlab("Group (smoking)") +
-  scale_x_discrete(labels = custom_names) +
+  
+  scale_x_discrete(labels = sites_names) +
   
   scale_y_continuous(breaks = c(-20, -10, -5, 0, 5, 10, 20),
-                     limits = c(-20, 37)) + 
-
-  theme_hc() + gtheme + 
-  guides(fill = FALSE, col = FALSE)  #+
+                     limits = c(-20, 33)) + 
+  
+  theme_hc() + gtheme +
+  
+  guides(fill = FALSE, col = FALSE)
 
 ## ----------------------------------------------------------
 
 # STATS
 
-# ONE-WAY ANOVA
+sel_cohort = maastro_to_plot[which(maastro_to_plot$site == "OTH"), ]
+sel_cohort_name = "other"
 
 # KRUSKAL-WALLIS (non-param ANOVA)
-kruskal.test(delta ~ smoking, data = maastro_to_plot)
+kruskal.test(delta ~ smoking, data = sel_cohort)
 
 # PAIR-WISE
-never = maastro_to_plot[which(maastro_to_plot$smoking == "never"), ]
-former = maastro_to_plot[which(maastro_to_plot$smoking == "former"), ]
-current = maastro_to_plot[which(maastro_to_plot$smoking == "current"), ]
+never = sel_cohort[which(sel_cohort$smoking == "never"), ]
+former = sel_cohort[which(sel_cohort$smoking == "former"), ]
+current = sel_cohort[which(sel_cohort$smoking == "current"), ]
 
 pval_df <- data.frame(matrix(ncol = 3, nrow = 3))
 names(pval_df) <- c("never", "former", "current")
@@ -160,4 +169,3 @@ pheatmap(pval_df, display_numbers = T, cluster_rows = F, cluster_cols = F,
          show_rownames = TRUE, show_colnames = TRUE, na_col = "white",
          number_color = "black", legend = FALSE,
          number_format = "%g", fontsize_number = 15, fontsize_row = 15, fontsize_col = 15)
-
