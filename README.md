@@ -1,7 +1,5 @@
 # FaceAge
 
-# DeepCAC
-
 [Paper title and link]
 
 If you use code or parts of this code in your work, please cite our 
