@@ -1,3 +1,17 @@
+# The code and data of this repository are intended to promote reproducible research of the paper
+# "$PAPER_TITLE"
+# Details about the project can be found at the following webpage: 
+# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+# NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+# This script was used to export some of the main figures from the paper.
+# The numbers reported here can be obtained running the "main_fig_3c_stats.R" script.
+
 library(forestplot)
 library(dplyr)
 
@@ -9,6 +23,20 @@ covariates = c("Covariate",
 ## --------------------------------------------
 
 ## -- BREAST COHORT --
+
+df_breast <- structure(list(mean  = c(NA, 1.854, 1.456, 1.453), 
+                            lower = c(NA, 1.505, 1.073, 1.071),
+                            upper = c(NA, 2.284, 1.975, 1.972)),
+                       .Names = c("mean", "lower", "upper"), 
+                       row.names = c(NA, -4L), 
+                       class = "data.frame")
+
+pvals_breast = c("p value", "< 0.001", "0.0159", "0.0165")
+
+
+## --------------------------------------------
+
+## -- GI COHORT --
 
 df_breast <- structure(list(mean  = c(NA, 1.854, 1.456, 1.453), 
                             lower = c(NA, 1.505, 1.073, 1.071),
@@ -35,36 +63,22 @@ pvals_gu = c("p value", "< 0.001", "0.0143", "0.0464")
 
 ## --------------------------------------------
 
-## -- GI COHORT --
-
-df_breast <- structure(list(mean  = c(NA, 1.854, 1.456, 1.453), 
-                            lower = c(NA, 1.505, 1.073, 1.071),
-                            upper = c(NA, 2.284, 1.975, 1.972)),
-                       .Names = c("mean", "lower", "upper"), 
-                       row.names = c(NA, -4L), 
-                       class = "data.frame")
-
-pvals_breast = c("p value", "< 0.001", "0.0159", "0.0165")
-
-## --------------------------------------------
-
 ## -- LUNG COHORT --
 
-df_breast <- structure(list(mean  = c(NA, 1.854, 1.456, 1.453), 
-                            lower = c(NA, 1.505, 1.073, 1.071),
-                            upper = c(NA, 2.284, 1.975, 1.972)),
-                       .Names = c("mean", "lower", "upper"), 
-                       row.names = c(NA, -4L), 
-                       class = "data.frame")
+df_lung <- structure(list(mean  = c(NA, 1.243, 1.079, 1.123), 
+                          lower = c(NA, 1.108, 0.932, 0.969),
+                          upper = c(NA, 1.395, 1.249, 1.303)),
+                     .Names = c("mean", "lower", "upper"), 
+                     row.names = c(NA, -4L), 
+                     class = "data.frame")
 
-pvals_breast = c("p value", "< 0.001", "0.0159", "0.0165")
+pvals_lung = c("p value", "< 0.001", "0.3085", "0.1240")
 
 ## --------------------------------------------
 ## --------------------------------------------
 
-cohort_name = "breast"
-tabletext <- cbind(covariates, pvals_breast)
-sel_df = df_breast
+tabletext <- cbind(covariates, pvals_lung)
+sel_df = df_lung
 
 font = "Times New Roman"
 

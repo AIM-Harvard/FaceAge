@@ -80,7 +80,7 @@ maastro_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 
 ## -- STATS --
 
-sel_cohort = maastro_breast
+sel_cohort = maastro_lung
 
 ## -- FaceAge --
 
