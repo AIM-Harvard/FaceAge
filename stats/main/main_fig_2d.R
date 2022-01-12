@@ -142,8 +142,8 @@ pval_df <- data.frame(matrix(ncol = 4, nrow = 4))
 names(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3")
 rownames(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3")
 
-stat_test = wilcox.test
-#stat_test = t.test
+#stat_test = wilcox.test
+stat_test = t.test
 
 pval_df[1, 1] = stat_test(x = ecog0$delta, y = ecog0$delta, paired = FALSE, alternative = "two.sided")$p.value
 pval_df[1, 2] = stat_test(x = ecog0$delta, y = ecog1$delta, paired = FALSE, alternative = "two.sided")$p.value

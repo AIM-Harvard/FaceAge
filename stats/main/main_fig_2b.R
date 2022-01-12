@@ -144,14 +144,17 @@ pval_df <- data.frame(matrix(ncol = 3, nrow = 3))
 names(pval_df) <- c("never", "former", "current")
 rownames(pval_df) <- c("never", "former", "current")
 
-pval_df[1, 1] = wilcox.test(x = never$delta, y = never$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[1, 2] = wilcox.test(x = never$delta, y = former$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[1, 3] = wilcox.test(x = never$delta, y = current$delta, paired = FALSE, alternative = "two.sided")$p.value
+#stat_test = wilcox.test
+stat_test = t.test
 
-pval_df[2, 2] = wilcox.test(x = former$delta, y = former$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[2, 3] = wilcox.test(x = former$delta, y = current$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 1] = stat_test(x = never$delta, y = never$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 2] = stat_test(x = never$delta, y = former$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 3] = stat_test(x = never$delta, y = current$delta, paired = FALSE, alternative = "two.sided")$p.value
 
-pval_df[3, 3] = wilcox.test(x = current$delta, y = current$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[2, 2] = stat_test(x = former$delta, y = former$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[2, 3] = stat_test(x = former$delta, y = current$delta, paired = FALSE, alternative = "two.sided")$p.value
+
+pval_df[3, 3] = stat_test(x = current$delta, y = current$delta, paired = FALSE, alternative = "two.sided")$p.value
 
 dat <- matrix(rnorm(9, 3, 1), ncol=3)
 names(dat) <- paste("X", 1:3)
