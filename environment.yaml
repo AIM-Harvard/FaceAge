@@ -1,0 +1,37 @@
+name: faceage-test
+channels:
+  - defaults
+dependencies:
+  - cudatoolkit=11.3.1=h2bc3f7f_2
+  - cudnn=8.2.1=cuda11.3_0
+  - jupyter=1.0.0=py36_7
+  - jupyter_client=7.0.6=pyhd3eb1b0_0
+  - jupyter_console=6.4.0=pyhd3eb1b0_0
+  - jupyter_core=4.8.1=py36h06a4308_0
+  - jupyterlab_pygments=0.1.2=py_0
+  - jupyterlab_widgets=1.0.0=pyhd3eb1b0_1
+  - pip=21.2.2=py36h06a4308_0
+  - python=3.6.13=h12debd9_1
+  - python-dateutil=2.8.2=pyhd3eb1b0_0
+  - setuptools=58.0.4=py36h06a4308_0
+  - sip=4.19.8=py36hf484d3e_0
+  - six=1.16.0=pyhd3eb1b0_0
+  - wheel=0.37.0=pyhd3eb1b0_1
+  - widgetsnbextension=3.5.1=py36_0
+  - zlib=1.2.11=h7b6447c_3
+  - pip:
+    - h5py==3.1.0
+    - importlib-metadata==4.8.2
+    - keras==2.6.0
+    - keras-preprocessing==1.1.2
+    - mtcnn==0.1.1
+    - numpy==1.19.5
+    - opencv-python==4.5.4.60
+    - pandas==1.1.5
+    - scikit-image==0.12.3
+    - seaborn==0.11.2
+    - tensorboard==2.6.0
+    - tensorboard-data-server==0.6.1
+    - tensorboard-plugin-wit==1.8.0
+    - tensorflow-estimator==2.6.0
+    - tensorflow-gpu==2.6.2
