@@ -87,7 +87,7 @@ BASE_DATA_PATH = os.path.join(PROJECT_PATH, "data")
 BASE_MODEL_PATH = os.path.join(PROJECT_PATH, "models")
 BASE_OUTPUT_PATH = os.path.join(PROJECT_PATH, "outputs")
 
-FOLDER_NAME = "test"
+FOLDER_NAME = "utk_hi-res_qa"
 
 input_base_path = os.path.join(BASE_DATA_PATH, FOLDER_NAME)
 input_file_list = [f for f in os.listdir(input_base_path) if ".jpg" in f]
@@ -100,7 +100,7 @@ face_bbox_dict = dict()
 
 # limit the number of subjects for a faster execution
 # if set to -1, run on all the hi-res UTK data (provided)
-N_SUBJECTS = 10
+N_SUBJECTS = 100
 
 # subset the file list to speed up the execution of the whole notebook
 input_file_list = input_file_list[:N_SUBJECTS] if N_SUBJECTS > 0 else input_file_list
