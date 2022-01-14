@@ -21,52 +21,31 @@ Additional details on the content of the subdirectories and their structure can 
 
 This code was developed and tested using Python 2.7.17 on Ubuntu 18.04 with Cuda 10.1 and libcudnn 7.6.
 
-The pipeline was also tested using Python 3.6.13 on Ubuntu 18.04 with Cuda 11.3.1 and libcudnn 8.2.1.
+The pipeline was also tested using the environment described in the `environment.yaml` file (Python 3.6.13, CUDA 11.3.1, and libcudnn 8.2.1 - on Ubuntu 18.04), and using the freely accessible Google Colab notebook (Python 3.7.12, CUDA 11.1, and libcudnn 7.6.5 - on Ubuntu 18.04). We recommend running the pipeline on an up-to-date environment to avoid [known problems](https://github.com/ipazc/mtcnn/issues/87) with the `MTCNN` library.
 
 The statistical analysis was conducted using R (Version 3.6.3) in an RStudio environment (Version 1.4.1106).
 
 <br>
 
-For the code to run as intended, all the packages under `requirements.txt` should be installed. In order not to break previous installations and ensure full compatibility, it's highly recommended to create a virtual environment to run the FaceAge pipeline in. Here follows an example of set-up using `python virtualenv`:
+For the code to run as intended, the all the packages under the environment file `environment.yaml` should be installed. In order not to break previous installations and ensure full compatibility, it's highly recommended to create a Conda environment to run the FaceAge pipeline in. Here follows an example of set-up using Conda and the provided YAML environment file:
 
 ```
-# install python's virtualenv
-sudo pip install virtualenv
+# set-up Conda faceage-test environment
+conda env create --file environment.yaml
 
-# parse the path to the python2 interpreter
-export PY2PATH=$(which python2)
-
-# create a virtualenv with such python2 interpreter named "venv"
-# (common name, already found in .gitignore)
-virtualenv -p $PY2PATH venv 
-
-# activate the virtualenv
-source venv/bin/activate
+# activate the conda environment
+conda activate faceage-test
 ```
 
-At this point, `(venv)` should be displayed at the start of each bash line. Furthermore, the command `which python2` should return a path similar to `/path/to/folder/venv/bin/python2`. Once the virtual environment is activated:
+At this point, `(faceage-test)` should be displayed at the start of each bash line. Furthermore, the command `which python` should return a path similar to `$PATH_TO_CONDA_FOLDER/faceage-test/bin/python`. 
 
-```
-# once the virtualenv is activated, install the dependencies
-pip install -r requirements.txt
-```
-
-At this stage, everything should be ready for the data to be processed by the FaceAge pipeline. Additional details can be found in the markdown file under `src`.
+At this stage, everything should be ready for the data to be processed by the FaceAge pipeline. Additional details on the pipeline can be found in the markdown file under `src`.
 
 The virtual environment can be deactivated by running:
 
 ```
-deactivate
+conda deactivate
 ```
-
-<br>
-
-Alternatively, one could create and setup a Conda environment:
-
-```
->> Instruction for setting everything up with Conda
-```
-
 
 ## Acknowledgements
 
