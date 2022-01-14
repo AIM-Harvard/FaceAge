@@ -24,6 +24,7 @@ import tensorflow as tf
 
 # suppress warnings/errors due to migration from TensorFlow 1.x to 2.x
 tf.compat.v1.disable_eager_execution()
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 from skimage.io import imsave, imread
 
@@ -32,7 +33,7 @@ print("Python version     : ", sys.version.split('\n')[0])
 print("TensorFlow version : ", tf.__version__)
 print("Keras version      : ", keras.__version__)
 print("Numpy version      : ", np.__version__)
-
+print("")
 
 def get_face_bbox_from_image(path_to_image):
   
@@ -79,17 +80,20 @@ def get_model_prediction(model, path_to_image, mtcnn_output_dict):
 # ------------------------
 # ------------------------
 
-project_path = "/home/dennis/git/FaceAge/"
+# fixme: parse from config file
+PROJECT_PATH = "/home/dennis/git/FaceAge/"
 
-BASE_DATA_PATH = os.path.join(project_path, "data")
-BASE_MODEL_PATH = os.path.join(project_path, "models")
+BASE_DATA_PATH = os.path.join(PROJECT_PATH, "data")
+BASE_MODEL_PATH = os.path.join(PROJECT_PATH, "models")
+BASE_OUTPUT_PATH = os.path.join(PROJECT_PATH, "outputs")
 
+FOLDER_NAME = "test"
 
-input_base_path = os.path.join(BASE_DATA_PATH, "utk_hi-res_qa")
+input_base_path = os.path.join(BASE_DATA_PATH, FOLDER_NAME)
 input_file_list = [f for f in os.listdir(input_base_path) if ".jpg" in f]
 
-# save the output dictionary in a folder parsable by the data_viz notebook
-BASE_OUTPUT_PATH = BASE_DATA_PATH
+print("Predicting FaceAge for %g subjects at: '%s'\n"%(len(input_file_list),
+                                                       input_base_path))
 
 
 face_bbox_dict = dict()
@@ -104,25 +108,16 @@ input_file_list = input_file_list[:N_SUBJECTS] if N_SUBJECTS > 0 else input_file
 
 for idx, input_image in enumerate(input_file_list):
 
-  # get rid of label information and file extension
-  subj_id = input_image.split("_")[3].split(".")[0] 
+  subj_id = input_image.split(".")[0]
 
   print('(%g/%g) Running the face localization step for "%s"'%(idx + 1,
                                                                len(input_file_list),
-                                                               subj_id),
+                                                               input_image),
   end = "\r")
-
-  subj_age = input_image.split("_")[0]
-  subj_gender = input_image.split("_")[1]
-  subj_race = input_image.split("_")[2]
 
   path_to_image = os.path.join(input_base_path, input_image)
   
   face_bbox_dict[subj_id] = dict()
-
-  face_bbox_dict[subj_id]["age"] = subj_age
-  face_bbox_dict[subj_id]["gender"] = subj_gender
-  face_bbox_dict[subj_id]["race"] = subj_race
   
   face_bbox_dict[subj_id]["path_to_image"] = path_to_image
 
@@ -133,6 +128,7 @@ for idx, input_image in enumerate(input_file_list):
 model_path = os.path.join(BASE_MODEL_PATH, "faceage_model.h5")
 model = keras.models.load_model(model_path)
 
+print("")
 
 age_pred_dict = dict()
 
@@ -149,19 +145,16 @@ for idx, subj_id in enumerate(face_bbox_dict.keys()):
   age_pred_dict[subj_id] = dict()
 
   age_pred_dict[subj_id]["faceage"] = get_model_prediction(model, path_to_image, mtcnn_output_dict)
-  age_pred_dict[subj_id]["age"] = face_bbox_dict[subj_id]["age"]
-  age_pred_dict[subj_id]["gender"] = face_bbox_dict[subj_id]["gender"]
-  age_pred_dict[subj_id]["race"] = face_bbox_dict[subj_id]["race"]
 
 
 age_pred_df = pd.DataFrame.from_dict(age_pred_dict, orient = 'index')
 age_pred_df.reset_index(level = 0, inplace = True)
 age_pred_df.rename(columns = {"index": "subj_id"}, inplace = True)
 
-outfile_name = 'utk_hi-res_qa_res.csv'
+outfile_name = '%s_res.csv'%(FOLDER_NAME)
 outfile_path = os.path.join(BASE_OUTPUT_PATH, outfile_name) 
 
-print("Saving predictions at: '%s'... "%(outfile_path), end = "")
+print("\nSaving predictions at: '%s'... "%(outfile_path), end = "")
 
 age_pred_df.to_csv(outfile_path, index = False)
 
