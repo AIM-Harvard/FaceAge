@@ -15,6 +15,9 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import sys
+import yaml
+import argparse
+
 import PIL
 import mtcnn
 import keras
@@ -28,12 +31,13 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 from skimage.io import imsave, imread
 
-
 print("Python version     : ", sys.version.split('\n')[0])
 print("TensorFlow version : ", tf.__version__)
 print("Keras version      : ", keras.__version__)
 print("Numpy version      : ", np.__version__)
 print("")
+
+## ----------------------------------------
 
 def get_face_bbox_from_image(path_to_image):
   
@@ -49,7 +53,7 @@ def get_face_bbox_from_image(path_to_image):
     print('ERROR: Processing error for file "%s"'%(path_to_image))
     return dict()
 
-# ------------------------
+## ----------------------------------------
 
 def get_model_prediction(model, path_to_image, mtcnn_output_dict):
   
@@ -77,85 +81,141 @@ def get_model_prediction(model, path_to_image, mtcnn_output_dict):
   
   return np.squeeze(model.predict(pat_face_input))
 
-# ------------------------
-# ------------------------
+## ----------------------------------------
+## ----------------------------------------
 
-# fixme: parse from config file
-PROJECT_PATH = "/home/dennis/git/FaceAge/"
+def main(config):
 
-BASE_DATA_PATH = os.path.join(PROJECT_PATH, "data")
-BASE_MODEL_PATH = os.path.join(PROJECT_PATH, "models")
-BASE_OUTPUT_PATH = os.path.join(PROJECT_PATH, "outputs")
+  model_name = config["model_name"]
+  base_model_path = config["base_model_path"]
 
-FOLDER_NAME = "utk_hi-res_qa"
+  base_output_path = config["base_output_path"]
 
-input_base_path = os.path.join(BASE_DATA_PATH, FOLDER_NAME)
-input_file_list = [f for f in os.listdir(input_base_path) if ".jpg" in f]
+  input_folder_name = config["input_folder_name"]
+  input_folder_path = config["input_folder_path"]
 
-print("Predicting FaceAge for %g subjects at: '%s'\n"%(len(input_file_list),
-                                                       input_base_path))
+  input_file_list = [f for f in os.listdir(input_folder_path) if ".jpg" in f]
 
-
-face_bbox_dict = dict()
-
-# limit the number of subjects for a faster execution
-# if set to -1, run on all the hi-res UTK data (provided)
-N_SUBJECTS = 100
-
-# subset the file list to speed up the execution of the whole notebook
-input_file_list = input_file_list[:N_SUBJECTS] if N_SUBJECTS > 0 else input_file_list
+  print("Predicting FaceAge for %g subjects at: '%s'\n"%(len(input_file_list),
+                                                         input_folder_path))
 
 
-for idx, input_image in enumerate(input_file_list):
+  face_bbox_dict = dict()
 
-  subj_id = input_image.split(".")[0]
+  # FIXME: DEBUG
+  # limit the number of subjects for a faster execution
+  # if set to -1, run on all the hi-res UTK data (provided)
+  N_SUBJECTS = 100
 
-  print('(%g/%g) Running the face localization step for "%s"'%(idx + 1,
-                                                               len(input_file_list),
-                                                               input_image),
-  end = "\r")
+  # subset the file list to speed up the execution of the whole notebook
+  input_file_list = input_file_list[:N_SUBJECTS] if N_SUBJECTS > 0 else input_file_list
 
-  path_to_image = os.path.join(input_base_path, input_image)
+
+  for idx, input_image in enumerate(input_file_list):
+
+    subj_id = input_image.split(".")[0]
+
+    print('(%g/%g) Running the face localization step for "%s"'%(idx + 1,
+                                                                len(input_file_list),
+                                                                input_image),
+    end = "\r")
+
+    path_to_image = os.path.join(input_folder_path, input_image)
+    
+    face_bbox_dict[subj_id] = dict()
+    
+    face_bbox_dict[subj_id]["path_to_image"] = path_to_image
+
+    face_bbox_dict[subj_id]["mtcnn_output_dict"] = get_face_bbox_from_image(path_to_image)
+
+  # ------------------------
+
+  model_path = os.path.join(base_model_path, model_name)
+  model = keras.models.load_model(model_path)
+
+  print("")
+
+  age_pred_dict = dict()
+
+  for idx, subj_id in enumerate(face_bbox_dict.keys()):
+    
+    print('(%g/%g) Running the age estimation step for "%s"'%(idx + 1,
+                                                              len(face_bbox_dict),
+                                                              subj_id),
+    end = "\r")
+
+    path_to_image = face_bbox_dict[subj_id]["path_to_image"]
+    mtcnn_output_dict = face_bbox_dict[subj_id]["mtcnn_output_dict"]
+
+    age_pred_dict[subj_id] = dict()
+
+    age_pred_dict[subj_id]["faceage"] = get_model_prediction(model, path_to_image, mtcnn_output_dict)
+
+
+  age_pred_df = pd.DataFrame.from_dict(age_pred_dict, orient = 'index')
+  age_pred_df.reset_index(level = 0, inplace = True)
+  age_pred_df.rename(columns = {"index": "subj_id"}, inplace = True)
+
+  outfile_name = '%s_res.csv'%(input_folder_name)
+  outfile_path = os.path.join(base_output_path, outfile_name) 
+
+  print("\nSaving predictions at: '%s'... "%(outfile_path), end = "")
+
+  age_pred_df.to_csv(outfile_path, index = False)
+
+  print("Done.")
+
+
+## ----------------------------------------
+## ----------------------------------------
+      
+if __name__ == '__main__':
+
+  base_conf_file_path = '.'
   
-  face_bbox_dict[subj_id] = dict()
+  parser = argparse.ArgumentParser(description = 'FaceAge - predict folder demo')
+
+  parser.add_argument('--conf',
+                      required = False,
+                      help = 'Specify the path to the YAML configuration file containing the run details.',
+                      default = "config_predict_folder_demo.yaml"
+                     )
+
+  args = parser.parse_args()
+
+  conf_file_path = os.path.join(base_conf_file_path, args.conf)
+
+  with open(conf_file_path) as f:
+    yaml_conf = yaml.load(f, Loader = yaml.FullLoader)
+
+  # base data directory
+  base_path = yaml_conf["test"]["base_path"]
+
+  data_folder_name = yaml_conf["test"]["data_folder_name"]
+
+  model_name = yaml_conf["test"]["model_name"]
+  models_folder_name = yaml_conf["test"]["models_folder_name"]
+
+  input_folder_name = yaml_conf["test"]["input_folder_name"]
+  outputs_folder_name = yaml_conf["test"]["outputs_folder_name"]
+
+  base_data_path = os.path.join(base_path, data_folder_name)
+  base_model_path = os.path.join(base_path, models_folder_name)
+  base_output_path = os.path.join(base_path, outputs_folder_name)
+
+  input_folder_path = os.path.join(base_data_path, input_folder_name)
+
+  ## ----------------------------------------
   
-  face_bbox_dict[subj_id]["path_to_image"] = path_to_image
-
-  face_bbox_dict[subj_id]["mtcnn_output_dict"] = get_face_bbox_from_image(path_to_image)
-
-# ------------------------
-
-model_path = os.path.join(BASE_MODEL_PATH, "faceage_model.h5")
-model = keras.models.load_model(model_path)
-
-print("")
-
-age_pred_dict = dict()
-
-for idx, subj_id in enumerate(face_bbox_dict.keys()):
+  # dictionary to be passed to the main function
+  config = dict()
   
-  print('(%g/%g) Running the age estimation step for "%s"'%(idx + 1,
-                                                            len(face_bbox_dict),
-                                                            subj_id),
-  end = "\r")
+  config["base_model_path"] = base_model_path
+  config["model_name"] = model_name + ".h5" if model_name.split(".")[-1] != "h5" else model_name
 
-  path_to_image = face_bbox_dict[subj_id]["path_to_image"]
-  mtcnn_output_dict = face_bbox_dict[subj_id]["mtcnn_output_dict"]
-
-  age_pred_dict[subj_id] = dict()
-
-  age_pred_dict[subj_id]["faceage"] = get_model_prediction(model, path_to_image, mtcnn_output_dict)
-
-
-age_pred_df = pd.DataFrame.from_dict(age_pred_dict, orient = 'index')
-age_pred_df.reset_index(level = 0, inplace = True)
-age_pred_df.rename(columns = {"index": "subj_id"}, inplace = True)
-
-outfile_name = '%s_res.csv'%(FOLDER_NAME)
-outfile_path = os.path.join(BASE_OUTPUT_PATH, outfile_name) 
-
-print("\nSaving predictions at: '%s'... "%(outfile_path), end = "")
-
-age_pred_df.to_csv(outfile_path, index = False)
-
-print("Done.")
+  config["base_output_path"] = base_output_path
+  
+  config["input_folder_name"] = input_folder_name
+  config["input_folder_path"] = input_folder_path
+  
+  main(config)
