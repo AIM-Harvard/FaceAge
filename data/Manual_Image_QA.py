@@ -35,7 +35,7 @@ inputpath = './'
 outputpath = './'
 facepath = './'
 
-# load extracted faces
+# load faces
 data = np.load(facepath + 'extracted_faces.npz')
 X = data['arr_0']
 
