@@ -40,3 +40,19 @@ This script applies inclusion and exclusion criteria (as described in the manusc
 
 This script was used to import the human survey data from part 1 and 2 (stored on `REDcap` clinical data e-repository at Harvard MGH/BWH; see manuscript for further details) and map those to respective patient prognostic factors and outcomes, to create an output `.csv` file used for statistical analyses of survey results that compares human performance to machine performance in survival prediction for palliative cancer patients.
 
+
+## Manual Quality Assurance
+
+This script was used to manually exclude images that met the photo QA exclusion criteria listed in the manuscript (from Supplement Table 1):
+
+![image](https://user-images.githubusercontent.com/25285692/149672742-550d2a55-2f6c-4b4e-873d-cd74eb04f2f6.png)
+
+### Example of Acceptable Image
+![image](https://user-images.githubusercontent.com/25285692/149672917-6a97f45c-d367-4d09-907d-a6dfd5da2795.png)
+
+### Example of Disqualified Image
+Exclusion reason:  the original photograph has more than one face.
+![image](https://user-images.githubusercontent.com/25285692/149672609-f949da55-7969-4aec-af3f-f3be5a7c31cc.png)
+
+
+
