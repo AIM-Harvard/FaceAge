@@ -43,7 +43,7 @@ This script was used to import the human survey data from part 1 and 2 (stored o
 
 ## Manual Quality Assurance
 
-This script was used to manually exclude images that met the photo QA exclusion criteria listed in the manuscript (from Supplement Table 1):
+This script was used to manually cull images that met the photo QA exclusion criteria listed in the manuscript (from Supplement Table 1):
 
 ![image](https://user-images.githubusercontent.com/25285692/149672742-550d2a55-2f6c-4b4e-873d-cd74eb04f2f6.png)
 
