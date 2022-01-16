@@ -38,5 +38,5 @@ This script applies inclusion and exclusion criteria (as described in the manusc
 
 ## Survey Data Processing
 
-This script was used to import the human survey data (stored on `REDcap` clinical data e-repository at Harvard MGH/BWH) and map those to respective patient prognostic factors and outcomes, to create an output `.csv` file used for statistical analyses of survey results that compares human performance to machine performance in survival prediction for palliative cancer patients.
+This script was used to import the human survey data from part 1 and 2 (stored on `REDcap` clinical data e-repository at Harvard MGH/BWH; see manuscript for further details) and map those to respective patient prognostic factors and outcomes, to create an output `.csv` file used for statistical analyses of survey results that compares human performance to machine performance in survival prediction for palliative cancer patients.
 
