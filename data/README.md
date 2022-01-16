@@ -28,12 +28,12 @@ The randomized rebalancing randomly shuffles samples from each each category to 
 
 ## Database Processing
 
-The script takes 'logfile.csv', which contains the clinical image hashes pertaining to patient photographs stored on the hospital EMR, and maps them to the clinical database of respective patient prognostic factors and outcomes collectively prospectively; e.g. stored on 'RedCap' clinical e-repository at Harvard MGH/BWH. No clinical information is provided in this repo (including the contents of 'logfile.csv') due to privacy conditions.
+The script takes `logfile.csv`, which contains the clinical image hashes pertaining to patient photographs stored on the hospital EMR, and maps them to the clinical database of respective patient prognostic factors and outcomes collectively prospectively; e.g. stored on `REDcap v.11` clinical data e-repository at Harvard MGH/BWH. No clinical information is provided in this repo (including the contents of `logfile.csv`) due to privacy conditions.
 
 
 ## Database Curation
 
-This script applies inclusion and exclusion criteria (as described in the manuscript) to the output of 'Database_Processing.py' and calculates survival times, follow-up times and events in order to obtain the curated database used for statistical and survival analyses.
+This script applies inclusion and exclusion criteria (as described in the manuscript) to the output of `Database_Processing.py` and calculates survival times, follow-up times and events in order to obtain the curated database used for statistical and survival analyses.
 
 
 ## Survey Data Processing
