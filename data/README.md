@@ -4,7 +4,7 @@ This folder contains data processing and quality assurance files, used to prepar
 
 ## Augmentation and Rebalancing
 
-The script takes the source database of age-labelled photographs and creates a balanced dataset for training via augmentation and randomized rebalancing. The user defines a target number of samples per age category, age range of the processed dataset, and batch size for augmentation. The augmentation is done using the ImageDataGenerator functionality in Keras:
+The script takes the source database of age-labelled photographs and creates a balanced dataset for model training and development via augmentation and randomized rebalancing. The user defines a target number of samples per age category, age range of the processed dataset, and batch size for augmentation. The augmentation is done using the ImageDataGenerator functionality in Keras:
 
 ```
 # example instantiation of ImageDataGenerator object for augmentation
@@ -28,7 +28,7 @@ The randomized rebalancing randomly shuffles samples from each each category to 
 
 ## Database Processing
 
-The script takes `logfile.csv`, which contains the clinical image hashes pertaining to patient photographs stored on the hospital EMR, and maps them to the clinical database of respective patient prognostic factors and outcomes collectively prospectively; e.g. stored on `REDcap v.11` clinical data e-repository at Harvard MGH/BWH. No clinical information is provided in this repo (including the contents of `logfile.csv`) due to privacy conditions.
+The script takes `logfile.csv`, which contains the clinical image hashes pertaining to patient photographs stored on the hospital EMR, and maps them to the clinical database of respective patient prognostic factors and outcomes collectively prospectively; e.g. stored on `REDcap` clinical data e-repository at Harvard MGH/BWH. No clinical information is provided in this repo (including the contents of `logfile.csv`) due to privacy conditions.
 
 
 ## Database Curation
@@ -38,5 +38,5 @@ This script applies inclusion and exclusion criteria (as described in the manusc
 
 ## Survey Data Processing
 
-
+This script was used to import the human survey data (stored on `REDcap` clinical data e-repository at Harvard MGH/BWH) and map those to respective patient prognostic factors and outcomes, to create an output `.csv` file used for statistical analyses of survey results that compares human performance to machine performance in survival prediction for palliative cancer patients.
 
