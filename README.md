@@ -1,11 +1,14 @@
 # FaceAge
 
-[Paper title and link]
+[Graphical abstract?]
+
+[Paper title and link?]
 
 If you use code or parts of this code in your work, please cite our 
 publication:  [paper citation]
 
 [Journal logo]
+
 
 # Table of Contents
 
@@ -29,6 +32,7 @@ This repository is structured as follows:
 * The `notebooks` folder stores some demo resources useful to understand how the pipeline works and reproduce the first figures in the Extended Data.
 
 Additional details on the content of the subdirectories and their structure can be found in the markdown files stored in each of the subdirectories.
+
 
 # Environment Setup and Dependencies
 
@@ -100,6 +104,7 @@ conda deactivate
 # Acknowledgements
 
 Code development, testing, refactoring and documentation: Osbert Zalay and Dennis Bontempi.
+
 
 # Disclaimer
 
