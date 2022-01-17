@@ -41,15 +41,28 @@ print("")
 
 def get_face_bbox_from_image(path_to_image):
   
+  """
+  Use the MTCNN face detector to localise the subject's face withing the image.
+  Returns the coordinates to draw bounding box enclosing the face,
+  the keypoints coordinates, and the confidence associated with the prediction.
+  
+  Make sure the image contains only one subject for the pipeline to work as intended.
+
+  @params:
+    path_to_image - required: absolute path to the image file to be processed.
+     
+   """
+
   # sanity check
   assert os.path.exists(path_to_image)
 
   pat_img = imread(path_to_image)
   
   try:
+    # return the MTCNN output associated with the first face found in the image
+    # make sure the image contains only one subject for the pipeline to work as intended
     return mtcnn.mtcnn.MTCNN().detect_faces(pat_img)[0]
   except:
-    # patient
     print('ERROR: Processing error for file "%s"'%(path_to_image))
     return dict()
 
@@ -57,6 +70,18 @@ def get_face_bbox_from_image(path_to_image):
 
 def get_model_prediction(model, path_to_image, mtcnn_output_dict):
   
+  """
+  Get the FaceAge estimation for the given image.
+  Requires a bounding box (around the face) to be computed prior to this step.
+
+  @params:
+    model - required: the object storing the pre-trained (TF) FaceAge model
+    path_to_image - required: absolute path to the image file to be processed.
+    mtcnn_output_dict - required: dictionary storing the aforementioned bounding box
+      (e.g., obtained from the MTCNN face detector, by running "get_face_bbox_from_image")
+     
+   """
+
   # sanity check
   assert os.path.exists(path_to_image)
 
@@ -105,7 +130,7 @@ def main(config):
   # FIXME: DEBUG
   # limit the number of subjects for a faster execution
   # if set to -1, run on all the hi-res UTK data (provided)
-  N_SUBJECTS = 100
+  N_SUBJECTS = -1
 
   # subset the file list to speed up the execution of the whole notebook
   input_file_list = input_file_list[:N_SUBJECTS] if N_SUBJECTS > 0 else input_file_list

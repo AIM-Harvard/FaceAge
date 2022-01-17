@@ -7,17 +7,30 @@ publication:  [paper citation]
 
 [Journal logo]
 
+# Table of Contents
 
-## Repository Structure
+- [Repository Structure](#repository-structure)
+- [Environment Setup and Dependencies](#environment-setup-and-dependencies)
+  - [Running the Pipeline on a Machine Equipped With a Gpu](#running-the-pipeline-on-a-machine-equipped-with-a-gpu)
+  - [Running the Pipeline on a Machine Without a Gpu](#running-the-pipeline-on-a-machine-without-a-gpu)
+- [Acknowledgements](#acknowledgements)
+- [Disclaimer](#disclaimer)
+  
 
-The FaceAge repository is structured as follows:
+# Repository Structure
 
-* All the source code to run [...] is found under the `src` folder.
-* ...
+This repository is structured as follows:
+
+* The `src` folder stores the code used to train and test the pipeline;
+* The `stats` folder stores the code used in the statistical analysis, and to export the plots in the Main Manuscript and in the Extended Data;
+* The `models` folder stores the pre-trained weights for the FaceAge model;
+* The `data` folder stores the code used for data processing (from the database curation to the processing of some of the results, e.g., the survey in Figure 4 of the Main Manuscript), along with the links to retrieve the data shared with the publication;
+* The `outputs` folder stores a sample of the output from the pipeline;
+* The `notebooks` folder stores some demo resources useful to understand how the pipeline works and reproduce the first figures in the Extended Data.
 
 Additional details on the content of the subdirectories and their structure can be found in the markdown files stored in each of the subdirectories.
 
-## Setup
+# Environment Setup and Dependencies
 
 This code was developed and tested using Python 2.7.17 on Ubuntu 18.04 with Cuda 10.1 and libcudnn 7.6.
 
@@ -29,7 +42,7 @@ The statistical analysis was conducted using R (Version 3.6.3) in an RStudio env
 
 For the code to run as intended, the all the packages under one of the environment files should be installed. In order not to break previous installations and ensure full compatibility, it's highly recommended to create a Conda environment to run the FaceAge pipeline in. Here follows two examples of the set-up procedure using Conda and one of the provided YAML environment files.
 
-### Running the Pipeline on a Machine Equipped With a Gpu
+## Running the Pipeline on a Machine Equipped With a Gpu
 
 GPU acceleration can speed up the FaceAge estimation dramatically. If your machine is equipped with a GPU that supports CUDA compute capability, you can set up the Conda environment running the following:
 
@@ -63,7 +76,7 @@ The virtual environment can be deactivated by running:
 conda deactivate
 ```
 
-### Running the Pipeline on a Machine Without a Gpu
+## Running the Pipeline on a Machine Without a Gpu
 
 Running the FaceAge pipeline without GPU acceleration is possible, although this might increase considerably the processing times. If your machine is not equipped with a GPU that supports CUDA compute capability, you can set up the Conda environment running the following::
 
@@ -84,11 +97,11 @@ conda deactivate
 ```
 
 
-## Acknowledgements
+# Acknowledgements
 
 Code development, testing, refactoring and documentation: Osbert Zalay and Dennis Bontempi.
 
-## Disclaimer
+# Disclaimer
 
 The code and data of this repository are provided to promote reproducible 
 research. They are not intended for clinical care or commercial use.
@@ -100,8 +113,4 @@ authors or copyright holders be liable for any claim, damages or other
 liability, whether in an action of contract, tort or otherwise, arising 
 from, out of or in connection with the software or the use or other 
 dealings in the software.
-
-## Example data
-
-[link to the example notebooks here]
 
