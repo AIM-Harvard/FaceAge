@@ -82,7 +82,7 @@ conda deactivate
 
 ## Running the Pipeline on a Machine Without a Gpu
 
-Running the FaceAge pipeline without GPU acceleration is possible, although this might increase considerably the processing times. If your machine is not equipped with a GPU that supports CUDA compute capability, you can set up the Conda environment running the following::
+Running the FaceAge pipeline without GPU acceleration is possible, although this might increase considerably the processing times. If your machine is not equipped with a GPU that supports CUDA compute capability, you can set up the Conda environment running the following:
 
 ```
 # set-up Conda faceage-test environment
