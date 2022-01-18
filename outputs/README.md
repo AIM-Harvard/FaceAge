@@ -18,8 +18,9 @@ The `subj_id` column contains the file name (without the extension), while the `
 | 99_1_0_20170120133837030  | 92.09139  |
 | 99_1_2_20170117195405372  | 95.592224 |
 
+<br> 
 
-The CSV file `utk_hi-res_qa_res-ext_data.csv` is very similar copy of the aforementioned that incorporates all the information needed to reproduce the first Extended Data figures. This CSV has been generated from the Google Colab Notebook `data_processing_demo.ipynb` [link to the notebook here]:
+The CSV file `utk_hi-res_qa_res-ext_data.csv` is very similar to the aforementioned, but incorporates all the information needed to reproduce the first Extended Data figures. This CSV has been generated from the Google Colab Notebook `data_processing_demo.ipynb` [link to the notebook here]:
 
 |          subj_id          |  faceage  |  age  |  gender  |  race  |
 |---------------------------|-----------|-------|----------|--------|
