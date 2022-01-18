@@ -15,6 +15,7 @@ In the `test` folder, we provide a simple script (`predict_folder_demo.py`) to p
 
 By default, the script reads the images to process from a folder whose name is specified in the `config_predict_folder_demo.yaml` configuration file.
 
+[...]
 
 ```
 .
