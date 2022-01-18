@@ -1,5 +1,5 @@
 # Notebooks
 
-Testing notebooks description goes here.
+This folder stores some tutorial notebooks we developed to allow for quick experimentation with our pipeline.
 
-Add links to the Colab notebooks here.
+

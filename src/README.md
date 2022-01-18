@@ -2,7 +2,7 @@
 
 This folder stores the code used to train and test the pipeline.
 
-A list of the pipeline dependencies, as well as a quick guide on how to set-up the environment to run the pipeline, can be found in the main README.
+A list of the pipeline dependencies, as well as a quick guide on how to set-up the environment to run the pipeline, can be found in the main `README`.
 
 
 # Training Code
@@ -13,24 +13,37 @@ A list of the pipeline dependencies, as well as a quick guide on how to set-up t
 
 In the `test` folder, we provide a simple script (`predict_folder_demo.py`) to process all the `.jpg` and `.png` files in a given directory.
 
-By default, the script reads the images to process from a folder whose name is specified in the `config_predict_folder_demo.yaml` configuration file.
-
-[...]
+By default, the script reads the images to process from a folder whose name is specified in the `config_predict_folder_demo.yaml` configuration file (`input_folder_name`). The absolute path to the folder is determined from `base_path` and `data_folder_name` as well (by default, the script will look for a folder at `$base_path/$data_folder_name/$input_folder_name`):
 
 ```
-.
-└── utk_hi-res_qa
-    ├── 100_1_0_20170112213303693.jpg
-    ├── 100_1_0_20170117195420803.jpg
-    ├── 100_1_0_20170119212053665.jpg
-    ├── 20_0_0_20170104230051977.jpg
-    ├── 20_0_0_20170110232156775.jpg
-    ├── 20_0_0_20170117134213422.jpg
-    ├── 20_0_0_20170117140056058.jpg
-    ...
+$base_path
+└── $data_folder_name
+    └── $input_folder_name
+        ├── subj1.jpg
+        ├── subj2.jpg
+        ├── subj3.jpg
+        ...
 ```
 
-Furthermore, a documented Google Colab notebook implementing very similar operations is provided as part of the repository (see under `notebooks`). The code can be easily adapted to suit the users need.
+The folder can contain files that are not `.png` and `.jpg`, as only these formats will be read and processed. Here follows an example of how a folder should look like:
+
+```
+~/git/FaceAge
+└── data
+    └── utk_hi-res_qa
+        ├── 100_1_0_20170112213303693.jpg
+        ├── 100_1_0_20170117195420803.jpg
+        ├── 100_1_0_20170119212053665.jpg
+        ├── 20_0_0_20170104230051977.jpg
+        ├── 20_0_0_20170110232156775.jpg
+        ├── 20_0_0_20170117134213422.jpg
+        ├── 20_0_0_20170117140056058.jpg
+        ...
+```
+
+<br>
+
+A documented Google Colab notebook implementing very similar operations is provided as part of the repository (see under `notebooks`). The code can be easily adapted to suit the users need.
 
 Here follows a sample output from the `predict_folder_demo.py` script, executed on a machine equipped with a NVIDIA TITAN RTX, after setting up from scratch the `faceage-gpu` Conda environment:
 
