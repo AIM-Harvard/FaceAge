@@ -4,9 +4,6 @@ This folder stores a sample of the output from the FaceAge pipeline (`utk_hi-res
 
 The `subj_id` column contains the file name (without the extension), while the `faceage` column contains the estimation of the subject biological age **[CHECK]** computed by our pipeline:
 
-|-----------|------|
-
-```
 |          subj_id          |  faceage  |
 |---------------------------|-----------|
 | 100_1_0_20170112213303693 | 94.32125  |
@@ -26,7 +23,7 @@ The `subj_id` column contains the file name (without the extension), while the `
 | 96_1_2_20170110182526540  | 91.92511  |
 | 99_1_0_20170120133837030  | 92.09139  |
 | 99_1_2_20170117195405372  | 95.592224 |
-```
+
 
 The CSV file `utk_hi-res_qa_res-ext_data.csv` is very similar copy of the aforementioned that incorporates all the information needed to reproduce the first Extended Data figures. This CSV has been generated from the Google Colab Notebook `data_processing_demo.ipynb` [link to the notebook here]:
 
