@@ -14,7 +14,9 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
+import gc
 import sys
+import time
 import yaml
 import argparse
 
@@ -119,7 +121,7 @@ def main(config):
   input_folder_name = config["input_folder_name"]
   input_folder_path = config["input_folder_path"]
 
-  input_file_list = [f for f in os.listdir(input_folder_path) if ".jpg" in f]
+  input_file_list = [f for f in os.listdir(input_folder_path) if ".png" in f or ".jpg" in f]
 
   print("Predicting FaceAge for %g subjects at: '%s'\n"%(len(input_file_list),
                                                          input_folder_path))
@@ -135,6 +137,7 @@ def main(config):
   # subset the file list to speed up the execution of the whole notebook
   input_file_list = input_file_list[:N_SUBJECTS] if N_SUBJECTS > 0 else input_file_list
 
+  t = time.time()
 
   for idx, input_image in enumerate(input_file_list):
 
@@ -153,6 +156,15 @@ def main(config):
 
     face_bbox_dict[subj_id]["mtcnn_output_dict"] = get_face_bbox_from_image(path_to_image)
 
+    # FIXME: workaround trying solve known TF memory leaks
+    if not idx % 5:
+      tf.keras.backend.clear_session()
+      gc.collect()
+
+
+  elapsed = time.time() - t
+  print("\n... Done in %g seconds."%(elapsed))
+
   # ------------------------
 
   model_path = os.path.join(base_model_path, model_name)
@@ -161,6 +173,8 @@ def main(config):
   print("")
 
   age_pred_dict = dict()
+
+  t = time.time()
 
   for idx, subj_id in enumerate(face_bbox_dict.keys()):
     
@@ -176,6 +190,8 @@ def main(config):
 
     age_pred_dict[subj_id]["faceage"] = get_model_prediction(model, path_to_image, mtcnn_output_dict)
 
+  elapsed = time.time() - t
+  print("\n... Done in %g seconds."%(elapsed))
 
   age_pred_df = pd.DataFrame.from_dict(age_pred_dict, orient = 'index')
   age_pred_df.reset_index(level = 0, inplace = True)
@@ -186,7 +202,7 @@ def main(config):
 
   print("\nSaving predictions at: '%s'... "%(outfile_path), end = "")
 
-  age_pred_df.to_csv(outfile_path, index = False)
+  #age_pred_df.to_csv(outfile_path, index = False)
 
   print("Done.")
 
