@@ -42,16 +42,16 @@ Numpy version      :  1.19.5
 
 Predicting FaceAge for 2547 subjects at: '/home/dennis/git/FaceAge/data/utk_hi-res_qa'
 
-(2547/2547) Running the face localization step for "28_0_4_20170117202427928.jpg"
-... Done in 2024.72 seconds.
+(2547/2547) Running the face localization step for "28_0_4_20170117202427928.jpg""
+... Done in 2013.39 seconds.
 
-(2547/2547) Running the age estimation step for "28_0_4_20170117202427928"
-... Done in 78.1542 seconds.
+(2547/2547) Running the age estimation step for "28_0_4_20170117202427928""
+... Done in 95.157 seconds.
 
 Saving predictions at: '/home/dennis/git/FaceAge/outputs/utk_hi-res_qa_res.csv'... Done.
 ```
 
-Finally, `predict_folder_demo.py` ran on the same machine, without exploiting the GPU (rather, using an AMD Ryzen 7 3800X 8-Core; the system is equipped with 64 GBs of RAM). Given the nature of the operations involved and the lightweight models, it is no surprise the performances during the inference phase are comparable:
+Finally, here follows the output of `predict_folder_demo.py` ran on the same machine, without exploiting the GPU (rather, using an AMD Ryzen 7 3800X 8-Core; the system is equipped with 64 GBs of RAM). Given the system specifications, the nature of the operations involved and the lightweight models, the performances during the inference phase are comparable:
 
 ```
 (faceage-cpu) dennis@R2-D2:~/git/FaceAge/src/test$ python -W ignore predict_folder_demo.py 
