@@ -8,7 +8,7 @@ The notebooks can be downloaded and run locally (provided the right environment 
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AIM-Harvard/FaceAge/blob/main/notebooks/data_processing_demo.ipynb)
 
-This notebook allows the user to understand how to run the FaceAge pipeline (i.e., how is the pipeline set-up, how to format the input, and what to expect as the output), as well as estimate the computational costs of the operation involved.
+This notebook is designed to showcase how the pipeline is set-up, how to format the input to the pipeline, and what to expect as its output - as well as estimate the computational costs of the operation involved.
 
 The data required to run the notebook will be made available through [Zenodo](https://zenodo) upon publication.
 
@@ -31,12 +31,11 @@ Race:     0 (White)
 
 This notebook allows the user to reproduce some of the figures in the Extended Data document.
 
-Any small difference in the quantitative results is due to a difference between the versions of the dependencies used to conduct the final analysis in the paper, and the version of such dependencies on Google Colab.
-
-Other differences in the plots appearance are due to the fact the figure in the Extended Data were exported with R, while the notebook was written in python only.
-
+Note that any small difference in the quantitative results is due to a difference between the versions of the dependencies used to conduct the final analysis in the paper, and the version of such dependencies on Google Colab.
 
 Here follows a sample from the notebook:
+
+<br>
 
 ![notebooks-extended_data](../assets/notebooks-extended_data.png)
 
