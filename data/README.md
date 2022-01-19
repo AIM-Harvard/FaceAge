@@ -38,7 +38,7 @@ datagen = ImageDataGenerator(
 
 The randomized rebalancing randomly shuffles samples from each each category to supplement the augmented samples until the target number of samples per age category is achieved, in order to achieve an approximate uniform distribution
 
-![image](https://user-images.githubusercontent.com/25285692/149670666-3b30e552-1458-4d9f-a8b5-2a667ceaf7b4.png)
+![data-training](../assets/data-training.png)
 
 
 # Database Processing
@@ -60,17 +60,22 @@ This script was used to import the human survey data from part 1 and 2 (stored o
 
 This script was used to manually cull images that met the photo QA exclusion criteria listed in the manuscript (from Supplement Table 1):
 
-![image](https://user-images.githubusercontent.com/25285692/149672742-550d2a55-2f6c-4b4e-873d-cd74eb04f2f6.png)
+![data-manual_qa](../assets/data-manual_qa.png)
+
 
 ## Example of Acceptable Image
-![image](https://user-images.githubusercontent.com/25285692/149672917-6a97f45c-d367-4d09-907d-a6dfd5da2795.png)
+
+![data-acceptable_image](../assets/data-acceptable_image.png)
+
 
 ## Example of Disqualified Image
+
 Exclusion reason:  the original photograph has more than one face.
-![image](https://user-images.githubusercontent.com/25285692/149672609-f949da55-7969-4aec-af3f-f3be5a7c31cc.png)
+
+![data-disqualified_image](../assets/data-disqualified_image.png)
 
 
 # Link to the Shared Data
 
-[link to and description of the shared data goes here?]
+A link to the data (all the data used for training purposes, and the curated portion of the UTK dataset used for validation purposes) will be shared here upon publication. We plan to make these resources openly available to the community through [Zenodo.org](https://zenodo.org).
 
