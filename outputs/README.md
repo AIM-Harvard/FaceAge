@@ -1,8 +1,8 @@
 # Output
 
-This folder stores a sample of the output from the FaceAge pipeline (`utk_hi-res_qa_res.csv`). This CSV file was obtained by processing the data folder `data/utk_hi-res_qa` [SHARED UPON PUBLICATION?] using the demo script `predict_folder_demo.py` (with the default configuration stored in `config_predict_folder_demo.yaml`), found under the `src/test` subdirectory.
+This folder stores a sample of the output from the FaceAge pipeline (`utk_hi-res_qa_res.csv`). This CSV file was obtained by processing the data folder `data/utk_hi-res_qa` (the data will be shared upon publication via [Zenodo](https://zenodo.org)) using the demo script `predict_folder_demo.py` (with the default configuration stored in `config_predict_folder_demo.yaml`), found under the `src/test` subdirectory.
 
-The `subj_id` column contains the file name (without the extension), while the `faceage` column contains the estimation of the subject biological age **[CHECK]** computed by our pipeline:
+The `subj_id` column contains the file name (without the extension), while the `faceage` column contains the estimation of the subject biologic age computed by our pipeline:
 
 |          subj_id          |  faceage  |
 |---------------------------|-----------|
