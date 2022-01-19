@@ -156,7 +156,8 @@ def main(config):
 
     face_bbox_dict[subj_id]["mtcnn_output_dict"] = get_face_bbox_from_image(path_to_image)
 
-    # FIXME: workaround trying solve known TF memory leaks
+    # solves known TF memory leaks for the MTCNN pipeline
+    # (should work with all the recent versions of tensorflow)
     if not idx % 5:
       tf.keras.backend.clear_session()
       gc.collect()

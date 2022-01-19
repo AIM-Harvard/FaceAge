@@ -1,13 +1,9 @@
 # FaceAge
 
-[Graphical abstract?]
-
-[Paper title and link?]
+Deep learning estimates of biological age from face photographs predict clinical outcomes.
 
 If you use code or parts of this code in your work, please cite our 
-publication:  [paper citation]
-
-[Journal logo]
+publication: _Zalay, O., Bontempi, D., Bitterman, D. S., et Al. - Deep learning estimates of biological age from face photographs predict clinical outcomes_
 
 
 # Table of Contents
@@ -103,7 +99,7 @@ conda deactivate
 
 # Acknowledgements
 
-Code development, testing, refactoring and documentation: Osbert Zalay and Dennis Bontempi.
+Code development, testing, and documentation: Osbert Zalay and Dennis Bontempi.
 
 
 # Disclaimer

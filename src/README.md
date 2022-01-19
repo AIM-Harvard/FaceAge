@@ -40,10 +40,11 @@ The folder can contain files that are not `.png` and `.jpg`, as only these forma
         ├── 20_0_0_20170117140056058.jpg
         ...
 ```
+The `config_predict_folder_demo.yaml` configuration file is parsed by the script to determine also the path to the pre-trained model file (`$base_path/$models_folder_name/$model_name`), and the path to the folder where outputs (predictions) will be stored (`$base_path/$outputs_folder_name` - by default, stored under `${input_folder_name}.csv`).
 
 <br>
 
-A documented Google Colab notebook implementing very similar operations is provided as part of the repository (see under `notebooks`). The code can be easily adapted to suit the users need.
+A documented Google Colab notebook implementing very similar operations is provided as part of the repository (see under `notebooks` for the notebooks and how to open them in Colab directly). The code can be easily adapted to suit the users need.
 
 Here follows a sample output from the `predict_folder_demo.py` script, executed on a machine equipped with a NVIDIA TITAN RTX, after setting up from scratch the `faceage-gpu` Conda environment:
 
