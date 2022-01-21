@@ -1,12 +1,13 @@
 # -----------------
 # EXTENDED DATA
-# FIGURE 2C
+# FIGURE 4C
 # -----------------
 
-# The code and data of this repository are intended to promote reproducible research of the paper
-# "$PAPER_TITLE"
-# Details about the project can be found at the following webpage:
-# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+# The code and data of this repository are intended to promote transparent and reproducible research
+# of the paper "Decoding biological age from face photographs using deep learning"
+
+# All the details about the project can be found at the following webpage:
+# aim.hms.harvard.edu/FaceAge
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 # NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -35,7 +36,7 @@ library(ggbeeswarm)
 
 res_base_path <- "/mnt/data1/FaceAge/stats"
 
-# Thoracic cohort - 0 is male
+# Thoracic cohort
 thor_csv_name <- "11286-thoracic.csv"
 thor_csv_path <- file.path(res_base_path, thor_csv_name)
 
@@ -114,6 +115,8 @@ ggplot(sel_cohort, aes(x = ECOG, y = delta, fill = ECOG, col = ECOG)) +
 
 ## ----------------------------------------------------------
 
+## -- STATS --
+
 # PAIR-WISE
 ecog0 = sel_cohort[which(sel_cohort$ECOG == 0), ]
 ecog1 = sel_cohort[which(sel_cohort$ECOG == 1), ]
@@ -127,7 +130,7 @@ pval_df <- data.frame(matrix(ncol = 5, nrow = 5))
 names(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3", "ECOG 4")
 rownames(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3", "ECOG 4")
 
-#stat_test = wilcox.test
+
 stat_test = t.test
 
 pval_df[1, 1] = stat_test(x = ecog0$delta, y = ecog0$delta, paired = FALSE, alternative = "two.sided")$p.value
