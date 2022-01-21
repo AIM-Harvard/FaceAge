@@ -3,10 +3,11 @@
 # FIGURE 3C
 # -----------------
 
-# The code and data of this repository are intended to promote reproducible research of the paper
-# "$PAPER_TITLE"
-# Details about the project can be found at the following webpage:
-# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+# The code and data of this repository are intended to promote transparent and reproducible research
+# of the paper "Decoding biological age from face photographs using deep learning"
+
+# All the details about the project can be found at the following webpage:
+# aim.hms.harvard.edu/FaceAge
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 # NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -34,43 +35,37 @@ res_base_path <- "/mnt/data1/FaceAge/stats"
 maastro_file_name = "stats_maastro_cur_qa_all.csv"
 maastro_file_path = file.path(res_base_path, maastro_file_name)
 
-maastro_whole = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
+maastro_cur = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
 
-# cap survival AT 7 years
+# cap survival AT 7 years - longest period of time possible without losing to FUP >90% of the cohort
 cap_years = 7
-maastro_whole$death[which(maastro_whole$days_survived >= cap_years*365)] = 0
-maastro_whole$days_survived[which(maastro_whole$days_survived >= cap_years*365)] = cap_years*365
+
+maastro_cur$death[which(maastro_cur$days_survived >= cap_years*365)] = 0
+# maastro_cur$days_survived[which(maastro_cur$days_survived >= cap_years*365)] = cap_years*365
 
 # convert sex = M/F in 0/1
-maastro_whole$sex = factor(maastro_whole$sex)
-maastro_whole$sex_int = NA
-maastro_whole$sex_int[which(maastro_whole$sex == 'M')] = 0
-maastro_whole$sex_int[which(maastro_whole$sex == 'F')] = 1
+maastro_cur$sex = factor(maastro_cur$sex)
+maastro_cur$sex_int = NA
+maastro_cur$sex_int[which(maastro_cur$sex == 'M')] = 0
+maastro_cur$sex_int[which(maastro_cur$sex == 'F')] = 1
 
 # group the smaller sites
-maastro_whole$site[which(maastro_whole$site == "UNK")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "NEU")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "HEM")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "DER")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "ALG")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "SAR")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "GYN")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "UNK")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "NEU")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "HEM")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "DER")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "ALG")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "SAR")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "GYN")] = "OTH"
 
-maastro_whole$site = factor(maastro_whole$site)
+maastro_cur$site = factor(maastro_cur$site)
 
 # results per decade
-maastro_whole$dec_faceage = NA
-maastro_whole$dec_faceage = 0.1 * maastro_whole$faceage
+maastro_cur$dec_faceage = NA
+maastro_cur$dec_faceage = 0.1 * maastro_cur$faceage
 
-maastro_whole$dec_chrono_age = NA
-maastro_whole$dec_chrono_age = 0.1 * maastro_whole$chrono_age
-maastro_whole$dec_product = (maastro_whole$dec_faceage * maastro_whole$dec_chrono_age)
-
-maastro_whole$difference = (maastro_whole$chrono_age - maastro_whole$faceage)
-maastro_whole$dec_difference = (maastro_whole$dec_chrono_age - maastro_whole$dec_faceage)
-
-## SITE AND INTENT
-maastro_cur = maastro_whole[which(maastro_whole$intent == 'cur'), ]
+maastro_cur$dec_chrono_age = NA
+maastro_cur$dec_chrono_age = 0.1 * maastro_cur$chrono_age
 
 # exclude DCIS patients
 maastro_cur = maastro_cur[-which(maastro_cur$site == "MAM" & maastro_cur$exclude == 1), ]
@@ -89,7 +84,7 @@ maastro_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 
 sel_cohort = maastro_lung
 
-## -- FaceAge --
+## -- UVA --
 
 uva = coxph(Surv(days_survived, death) ~ dec_faceage, data = sel_cohort)
 uva_summary = summary(uva)
@@ -108,8 +103,9 @@ row.names(uva_res) = c("dec_faceage")
 
 ## ----------------------------------------------------------
 
-## -- Corrected for Age --
+## -- MVA --
 
+# adjusted for Age
 mva_age = coxph(Surv(days_survived, death) ~ dec_faceage + dec_chrono_age, data = sel_cohort)
 mva_age_summary = summary(mva_age)
 
@@ -128,8 +124,7 @@ mva_age_res = rename(mva_age_res, c("HR" = "exp.coef.",
 
 ## ----------------------------------------------------------
 
-## -- Corrected for Age and Gender --
-
+# adjusted for Age and Gender
 mva_age_gender = coxph(Surv(days_survived, death) ~ dec_faceage + sex + dec_chrono_age,
                        data = sel_cohort)
 mva_age_gender_summary = summary(mva_age_gender)
