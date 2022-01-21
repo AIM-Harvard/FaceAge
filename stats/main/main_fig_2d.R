@@ -3,10 +3,11 @@
 # FIGURE 2D
 # -----------------
 
-# The code and data of this repository are intended to promote reproducible research of the paper
-# "$PAPER_TITLE"
-# Details about the project can be found at the following webpage:
-# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+# The code and data of this repository are intended to promote transparent and reproducible research
+# of the paper "Decoding biological age from face photographs using deep learning"
+
+# All the details about the project can be found at the following webpage:
+# aim.hms.harvard.edu/FaceAge
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 # NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -60,8 +61,6 @@ maastro_cur$site[which(maastro_cur$site == "GYN")] = "OTH"
 
 maastro_cur$site = factor(maastro_cur$site)
 maastro_cur$delta = (maastro_cur$faceage - maastro_cur$chrono_age)
-
-## SITE AND INTENT
 
 # exclude DCIS patients
 maastro_cur = maastro_cur[-which(maastro_cur$site == "MAM" & maastro_cur$exclude == 1), ]
@@ -132,6 +131,8 @@ ggplot(sel_cohort, aes(x = ECOG, y = delta, fill = ECOG, col = ECOG)) +
 
 ## ----------------------------------------------------------
 
+## -- STATS --
+
 # PAIR-WISE
 ecog0 = sel_cohort[which(sel_cohort$ECOG == 0), ]
 ecog1 = sel_cohort[which(sel_cohort$ECOG == 1), ]
@@ -142,7 +143,7 @@ pval_df <- data.frame(matrix(ncol = 4, nrow = 4))
 names(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3")
 rownames(pval_df) <- c("ECOG 0", "ECOG 1", "ECOG 2", "ECOG 3")
 
-#stat_test = wilcox.test
+
 stat_test = t.test
 
 pval_df[1, 1] = stat_test(x = ecog0$delta, y = ecog0$delta, paired = FALSE, alternative = "two.sided")$p.value
