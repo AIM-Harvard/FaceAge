@@ -1,18 +1,20 @@
-#
+# -----------------
 # Script for computing ROC/AUC of survey-takers' Performance predicting 6-month survival of palliative patients
 # with no clinical aid, with clinical info and with FaceAge risk model compared to FaceAge alone
-#
-# The code and data of this repository are intended to promote reproducible research of the paper
-# "$PAPER_TITLE"
-# Details about the project can be found at the following webpage:
-# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+# -----------------
+
+# The code and data of this repository are intended to promote transparent and reproducible research
+# of the paper "Decoding biological age from face photographs using deep learning"
+
+# All the details about the project can be found at the following webpage:
+# aim.hms.harvard.edu/FaceAge
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 # NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 # NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
+
 # AIM 2022
 
 import pandas as pd
