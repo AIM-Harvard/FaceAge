@@ -3,7 +3,9 @@
 Deep learning estimates of biological age from face photographs predict clinical outcomes.
 
 If you use code or parts of this code in your work, please cite our 
-publication: _Zalay, O., Bontempi, D., Bitterman, D. S., et Al. - Deep learning estimates of biological age from face photographs predict clinical outcomes_
+publication: _Osbert Zalay, Dennis Bontempi, Danielle S. Bitterman, Nicolai Birkbak, Jack M. Qian, Hannah Roberts, Subha Perni, Andre Dekker, Tracy Balboni, Laura Warren, Monica Krishan, Benjamin H. Kann, Charles Swanton, Dirk De Ruysscher, Raymond H. Mak, Hugo J.W.L. Aerts - Decoding biological age from face photographs using deep learning_
+
+Manuscript currently submitted to Nature.
 
 
 # Table of Contents
