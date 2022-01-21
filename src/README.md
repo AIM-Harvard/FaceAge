@@ -5,10 +5,6 @@ This folder stores the code used to train and test the pipeline.
 A list of the pipeline dependencies, as well as a quick guide on how to set-up the environment to run the pipeline, can be found in the main `README`.
 
 
-# Training Code
-
-[add description here]
-
 # Testing Code
 
 In the `test` folder, we provide a simple script (`predict_folder_demo.py`) to process all the `.jpg` and `.png` files in a given directory.
