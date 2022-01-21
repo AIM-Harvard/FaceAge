@@ -38,28 +38,25 @@ maastro_file_name = "stats_maastro_cur_qa_all.csv"
 
 maastro_file_path = file.path(maastro_base_path, maastro_file_name)
 
-maastro_whole = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
+maastro_cur = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
 
 # convert sex = M/F in 0/1
-maastro_whole$sex = factor(maastro_whole$sex)
-maastro_whole$sex_int = NA
-maastro_whole$sex_int[which(maastro_whole$sex == 'M')] = 0
-maastro_whole$sex_int[which(maastro_whole$sex == 'F')] = 1
+maastro_cur$sex = factor(maastro_cur$sex)
+maastro_cur$sex_int = NA
+maastro_cur$sex_int[which(maastro_cur$sex == 'M')] = 0
+maastro_cur$sex_int[which(maastro_cur$sex == 'F')] = 1
 
 # group the smaller sites
-maastro_whole$site[which(maastro_whole$site == "UNK")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "NEU")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "HEM")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "DER")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "ALG")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "SAR")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "GYN")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "UNK")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "NEU")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "HEM")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "DER")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "ALG")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "SAR")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "GYN")] = "OTH"
 
-maastro_whole$site = factor(maastro_whole$site)
-maastro_whole$delta = maastro_whole$faceage - maastro_whole$chrono_age
-
-## SITE AND INTENT
-maastro_cur = maastro_whole[which(maastro_whole$intent == 'cur'), ]
+maastro_cur$site = factor(maastro_cur$site)
+maastro_cur$delta = maastro_cur$faceage - maastro_cur$chrono_age
 
 # exclude DCIS patients
 maastro_cur = maastro_cur[-which(maastro_cur$site == "MAM" & maastro_cur$exclude == 1), ]
