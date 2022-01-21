@@ -16,7 +16,6 @@
 
 # AIM 2022
 
-
 # import libraries/dependencies
 import matplotlib
 matplotlib.use('TkAgg')
