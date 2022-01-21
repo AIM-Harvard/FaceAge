@@ -1,6 +1,6 @@
 # -----------------
 # EXTENDED DATA
-# FIGURE 2A
+# FIGURE 4A
 # -----------------
 
 # The code and data of this repository are intended to promote transparent and reproducible research
