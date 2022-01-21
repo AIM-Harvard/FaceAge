@@ -82,7 +82,7 @@ maastro_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 
 ## ----------------------------------------------------------
 
-## -- BOXPLOTS  --
+## -- BOXPLOTS --
 
 maastro_to_plot = maastro_cur
 maastro_to_plot = maastro_to_plot %>% drop_na(smoking)
@@ -137,10 +137,10 @@ ggplot(maastro_to_plot, aes(x = factor(site, levels = c("MAM", "URO", "GE", "LON
 
 ## ----------------------------------------------------------
 
-# STATS
+## -- STATS --
 
-sel_cohort = maastro_to_plot[which(maastro_to_plot$site == "OTH"), ]
-sel_cohort_name = "other"
+sel_cohort = maastro_to_plot[which(maastro_to_plot$site == "MAM"), ]
+sel_cohort_name = "breast"
 
 
 # PAIR-WISE
@@ -152,7 +152,7 @@ pval_df <- data.frame(matrix(ncol = 3, nrow = 3))
 names(pval_df) <- c("never", "former", "current")
 rownames(pval_df) <- c("never", "former", "current")
 
-#stat_test = wilcox.test
+
 stat_test = t.test
 
 pval_df[1, 1] = stat_test(x = never$delta, y = never$delta, paired = FALSE, alternative = "two.sided")$p.value
