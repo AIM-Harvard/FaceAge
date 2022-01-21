@@ -3,10 +3,11 @@
 # FIGURE 8C
 # -----------------
 
-# The code and data of this repository are intended to promote reproducible research of the paper
-# "$PAPER_TITLE"
-# Details about the project can be found at the following webpage:
-# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+# The code and data of this repository are intended to promote transparent and reproducible research
+# of the paper "Decoding biological age from face photographs using deep learning"
+
+# All the details about the project can be found at the following webpage:
+# aim.hms.harvard.edu/FaceAge
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 # NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -39,7 +40,7 @@ teachh_cohort <- read.csv(file = teachh_file_path, stringsAsFactors = FALSE)
 ## ----------------------------------------------------------
 ## ----------------------------------------------------------
 
-# survival observation time in years (-1 = all time)
+# survival observation time in years
 years_cap = 3
 
 # censor individuals whose survival is longer than the observation time
