@@ -3,10 +3,11 @@
 # FIGURE 2B
 # -----------------
 
-# The code and data of this repository are intended to promote reproducible research of the paper
-# "$PAPER_TITLE"
-# Details about the project can be found at the following webpage:
-# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+# The code and data of this repository are intended to promote transparent and reproducible research
+# of the paper "Decoding biological age from face photographs using deep learning"
+
+# All the details about the project can be found at the following webpage:
+# aim.hms.harvard.edu/FaceAge
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 # NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -80,7 +81,7 @@ maastro_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 ## ----------------------------------------------------------
 ## ----------------------------------------------------------
 
-# SCATTERPLOT
+## -- SCATTERPLOT --
 
 rsq <- function(x, y) summary(lm(y~x))$r.squared
 
@@ -260,12 +261,7 @@ ggplot(maastro_to_plot, aes(x = bmi_class, y = delta, fill = bmi_class, col = bm
 
 ## ----------------------------------------------------------
 
-# STATS
-
-# ONE-WAY ANOVA
-
-# KRUSKAL-WALLIS (non-param ANOVA)
-kruskal.test(delta ~ bmi_class, data = maastro_to_plot)
+## -- STATS --
 
 # PAIR-WISE
 under = maastro_to_plot[which(maastro_to_plot$bmi_class == 1), ]
@@ -277,19 +273,22 @@ pval_df <- data.frame(matrix(ncol = 4, nrow = 4))
 names(pval_df) <- c("Underweight", "Normal Weight", "Overweight", "Obese")
 rownames(pval_df) <- c("Underweight", "Normal Weight", "Overweight", "Obese")
 
-pval_df[1, 1] = wilcox.test(x = under$delta, y = under$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[1, 2] = wilcox.test(x = under$delta, y = normal$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[1, 3] = wilcox.test(x = under$delta, y = over$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[1, 4] = wilcox.test(x = under$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
 
-pval_df[2, 2] = wilcox.test(x = normal$delta, y = normal$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[2, 3] = wilcox.test(x = normal$delta, y = over$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[2, 4] = wilcox.test(x = normal$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
+stat_test = t.test
 
-pval_df[3, 3] = wilcox.test(x = over$delta, y = over$delta, paired = FALSE, alternative = "two.sided")$p.value
-pval_df[3, 4] = wilcox.test(x = over$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 1] = stat_test(x = under$delta, y = under$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 2] = stat_test(x = under$delta, y = normal$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 3] = stat_test(x = under$delta, y = over$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[1, 4] = stat_test(x = under$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
 
-pval_df[4, 4] = wilcox.test(x = obese$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[2, 2] = stat_test(x = normal$delta, y = normal$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[2, 3] = stat_test(x = normal$delta, y = over$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[2, 4] = stat_test(x = normal$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
+
+pval_df[3, 3] = stat_test(x = over$delta, y = over$delta, paired = FALSE, alternative = "two.sided")$p.value
+pval_df[3, 4] = stat_test(x = over$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
+
+pval_df[4, 4] = stat_test(x = obese$delta, y = obese$delta, paired = FALSE, alternative = "two.sided")$p.value
 
 dat <- matrix(rnorm(9, 3, 1), ncol=3)
 names(dat) <- paste("X", 1:3)
