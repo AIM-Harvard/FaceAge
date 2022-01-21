@@ -3,10 +3,11 @@
 # FIGURE 3A
 # -----------------
 
-# The code and data of this repository are intended to promote reproducible research of the paper
-# "$PAPER_TITLE"
-# Details about the project can be found at the following webpage:
-# https://aim.hms.harvard.edu/$FACEAGE_HANDLE
+# The code and data of this repository are intended to promote transparent and reproducible research
+# of the paper "Decoding biological age from face photographs using deep learning"
+
+# All the details about the project can be found at the following webpage:
+# aim.hms.harvard.edu/FaceAge
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 # NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -36,63 +37,48 @@ maastro_base_path = "/mnt/data1/FaceAge/stats"
 maastro_file_name = "stats_maastro_cur_qa_all.csv"
 maastro_file_path = file.path(maastro_base_path, maastro_file_name)
 
-maastro_whole = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
+maastro_cur = read.csv(file = maastro_file_path, stringsAsFactors = FALSE)
 
 # cap survival AT 7 years - longest period of time possible without losing to FUP >90% of the cohort
 cap_years = 7
 
-maastro_whole$death[which(maastro_whole$days_survived >= cap_years*365)] = 0
-#maastro_whole$days_survived[which(maastro_whole$days_survived >= cap_years*365)] = cap_years*365 + 1
+maastro_cur$death[which(maastro_cur$days_survived >= cap_years*365)] = 0
+#maastro_cur$days_survived[which(maastro_cur$days_survived >= cap_years*365)] = cap_years*365 + 1
 
 # convert sex = M/F in 0/1
-maastro_whole$sex = factor(maastro_whole$sex)
-maastro_whole$sex_int = NA
-maastro_whole$sex_int[which(maastro_whole$sex == 'M')] = 0
-maastro_whole$sex_int[which(maastro_whole$sex == 'F')] = 1
+maastro_cur$sex = factor(maastro_cur$sex)
+maastro_cur$sex_int = NA
+maastro_cur$sex_int[which(maastro_cur$sex == 'M')] = 0
+maastro_cur$sex_int[which(maastro_cur$sex == 'F')] = 1
 
 # use Breast cancer patients as reference group
-maastro_whole$site[which(maastro_whole$site == "MAM")] = "0_MAM"
+maastro_cur$site[which(maastro_cur$site == "MAM")] = "0_MAM"
 
 # group the smaller sites
-maastro_whole$site[which(maastro_whole$site == "GYN")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "UNK")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "NEU")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "HEM")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "DER")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "ALG")] = "OTH"
-maastro_whole$site[which(maastro_whole$site == "SAR")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "GYN")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "UNK")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "NEU")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "HEM")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "DER")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "ALG")] = "OTH"
+maastro_cur$site[which(maastro_cur$site == "SAR")] = "OTH"
 
-maastro_whole$site = factor(maastro_whole$site)
+maastro_cur$site = factor(maastro_cur$site)
 
 # results per decade
-maastro_whole$dec_faceage = NA
-maastro_whole$dec_faceage = 0.1 * maastro_whole$faceage
+maastro_cur$dec_faceage = NA
+maastro_cur$dec_faceage = 0.1 * maastro_cur$faceage
 
-maastro_whole$dec_chrono_age = NA
-maastro_whole$dec_chrono_age = 0.1 * maastro_whole$chrono_age
+maastro_cur$dec_chrono_age = NA
+maastro_cur$dec_chrono_age = 0.1 * maastro_cur$chrono_age
 
 # convert faceage in classes
-# FIXME
-maastro_whole$faceage_group = NA
-maastro_whole$faceage_group[which(maastro_whole$faceage <= 65)] = 0
-maastro_whole$faceage_group[which(maastro_whole$faceage > 65 & maastro_whole$faceage <= 75)] = 1
-maastro_whole$faceage_group[which(maastro_whole$faceage > 75 & maastro_whole$faceage <= 85)] = 2
-maastro_whole$faceage_group[which(maastro_whole$faceage > 85)] = 3
-maastro_whole$faceage_group = factor(maastro_whole$faceage_group)
-
-
-maastro_whole$dec_product = (maastro_whole$dec_faceage * maastro_whole$dec_chrono_age)
-maastro_whole$product = (maastro_whole$faceage * maastro_whole$chrono_age)
-maastro_whole$product_group = (as.numeric(maastro_whole$faceage_group) * maastro_whole$chrono_age)
-
-maastro_whole$difference = (maastro_whole$chrono_age - maastro_whole$faceage)
-maastro_whole$dec_difference = (maastro_whole$dec_chrono_age - maastro_whole$dec_faceage)
-
-maastro_whole$ratio = (maastro_whole$chrono_age/maastro_whole$faceage)
-maastro_whole$ratio = (maastro_whole$faceage/maastro_whole$chrono_age)
-
-## SITE AND INTENT
-maastro_cur = maastro_whole[which(maastro_whole$intent == 'cur'), ]
+maastro_cur$faceage_group = NA
+maastro_cur$faceage_group[which(maastro_cur$faceage <= 65)] = 0
+maastro_cur$faceage_group[which(maastro_cur$faceage > 65 & maastro_cur$faceage <= 75)] = 1
+maastro_cur$faceage_group[which(maastro_cur$faceage > 75 & maastro_cur$faceage <= 85)] = 2
+maastro_cur$faceage_group[which(maastro_cur$faceage > 85)] = 3
+maastro_cur$faceage_group = factor(maastro_cur$faceage_group)
 
 maastro_cur = maastro_cur[-which(maastro_cur$site == "0_MAM" & maastro_cur$exclude == 1), ]
 
@@ -106,9 +92,7 @@ data_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 ## ----------------------------------------------------------
 ## ----------------------------------------------------------
 
-# DeepCAC
 custom_palette = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728")
-
 
 fit <- survfit(Surv(days_survived, death) ~ faceage_group, data = maastro_cur)
 fit_diff = survdiff(Surv(days_survived, death) ~ faceage_group, data = maastro_cur)
