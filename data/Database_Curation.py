@@ -17,7 +17,6 @@
 
 # AIM 2022
 
-
 # Import libraries/dependencies
 import numpy as np
 from numpy import load
