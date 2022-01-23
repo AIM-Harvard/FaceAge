@@ -24,3 +24,24 @@ The network was adapted to biological age estimation by removing the output clas
 Training was carried out on paired GPUs using `Keras` with `Tensorflow` backend, applying stochastic gradient descent with momentum for backpropagation, minimizing mean absolute error (MAE), with batch size of 256, batch normalization, dropout for regularization, and initial learning rate of 0.001 with incremental reduction on plateauing of error rate. The model development set was subdivided using random partitioning into 90% training, 10% testing. A description of training and testing source code can be found here: [Model Development Code](../src#readme). Model performance was good for the age range that underwent manual curation and quality assurance (MAE = 4.09 years) (see Supplementary Figure 8). Overall, MAE = 5.87 years for the entire dataset. This was deemed acceptable because the intent was on obtaining a better fit for ages 60 or older, being most clinically relevant to oncology populations, at the expense of not fitting the younger age range < 40 as well. Therefore, we accepted that images pertaining to the younger age labels contained higher heterogeneity, poorer image quality and some noisy or erroneous labels. Nevertheless, mean age difference was approximately zero for ages > 40, demonstrating the absence of an age bias in this clinically-relevant age range.
 
 ![model-development-performance](../assets/FaceAge-Model-Dev-Performance.SVG)
+
+
+## Model Validation
+
+Example model validation on an independent curated dataset derived from the UTK database can be found here: [Model Development Code](../notebooks#readme)
+
+
+## Comment about Finetuning and Bias
+
+The FaceAge model as implemented in the research study on clinical cancer populations did not have hyperparameters finetuned. The reasons for foregoing finetuning are manifold, but most importantly we discerned the introduction of age bias and overfitting when attempting to perform finetuning. Although finetuned models very accurately predicted chronologic age for the test sample population of healthy controls, often with MAE < 3 years, when a finetuned model was applied to clinical datasets, prognostic power to discern patient outcomes typically diminished compared to the non-finetuned model:
+
+
+
+
+
+
+
+
+Although the non-finetuned model is "noisier", possessing larger dispersion in estimated age range than the finetuned model, the greater magnitude of dispersion between individuals correlated with relative survival outcomes between patients in the cohort, and thus with biological age, whereby finetuning was found to weaken or eliminate this relational prognostic component.
+
+
