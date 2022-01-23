@@ -31,7 +31,7 @@ Example model validation on an independent curated dataset derived from the `UTK
 
 ### Comments about Finetuning and Bias
 
-The FaceAge model as implemented in the research study on clinical cancer populations did not have hyperparameters finetuned. The reasons for foregoing finetuning are manifold, but most importantly we discerned introduction of age bias and overfitting when trialing finetuning. Although the finetuned FaceAge models very accurately predicted chronologic age for the test sample population of healthy controls, often with MAE < 3 years, when a finetuned model was applied to clinical datasets, prognostic power to discern patient outcomes typically diminished compared to the non-finetuned model:
+The FaceAge model as implemented in the research study on clinical cancer populations did not have finetuning of model parameters. The reasons for foregoing finetuning are manifold, but most importantly we discerned introduction of age bias and overfitting when performing finetuning. Although finetuned FaceAge models could very accurately predict chronologic age for the test sample population of healthy controls, often with MAE < 3 years, when a finetuned model was applied to clinical datasets, prognostic power to discern patient outcomes typically diminished compared to the non-finetuned model:
 
 ![fineutuning-FaceAge-on-ChaLearn-2015-dataset](../assets/FaceAge-Finetuning-Apparent-Age.SVG)
 
