@@ -26,7 +26,7 @@ Training was carried out on paired GPUs using `Keras` with `Tensorflow` backend,
 
 ## Model Validation
 
-Example model validation on an independent curated dataset derived from the UTK database can be found here: [Model Validation Example](../notebooks#readme), which enables the user to reproduce some of the figures in the Extended Data section of the manuscript.
+Example model validation on an independent curated dataset derived from the `UTK` database can be found here: [Model Validation Example](../notebooks#readme), which enables the user to reproduce some of the figures in the Extended Data section of the manuscript.
 
 
 ### Comments about Finetuning and Bias
