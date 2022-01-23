@@ -31,22 +31,17 @@ Training was carried out on paired GPUs using `Keras` with `Tensorflow` backend,
 Example model validation on an independent curated dataset derived from the UTK database can be found here: [Model Validation Example](../notebooks#readme), which enables the user to reproduce some of the figures in the Extended Data section of the manuscript.
 
 
+### Comments about Finetuning and Bias
 
+The FaceAge model as implemented in the research study on clinical cancer populations did not have hyperparameters finetuned. The reasons for foregoing finetuning are manifold, but most importantly we discerned introduction of age bias and overfitting when trialing finetuning. Although the finetuned FaceAge models very accurately predicted chronologic age for the test sample population of healthy controls, often with MAE < 3 years, when a finetuned model was applied to clinical datasets, prognostic power to discern patient outcomes typically diminished compared to the non-finetuned model:
 
+![fineutuning-FaceAge-on-ChaLearn-2015-dataset](../assets/FaceAge-Finetuning-Apparent-Age.SVG)
 
+![fineutuning-effect-clinical-prognostication](../assets/FaceAge-Finetuning-Effect-Prognostication.SVG)
 
+Therefore, it was preferrable to utilize the non-finetuned model for biological age estimation and outcomes prognostication, despite the base model being "noisier" (i.e. possessing larger dispersion in estimated age range) than the finetuned model. However, the greater magnitude of dispersion between individuals was found to correlate with relative survival outcomes between patients in the cohort, and thus with biological age, whereby finetuning was found to weaken or eliminate this relational prognostic component, likely in part due to overfitting to the smaller sample size of the finetuning cohort. Bias was also introduced by the idiosyncracies of the fine-tunining dataset, such as by the fact that when humans estimate apparent age, they tend to underestimate the ages of older individuals - precisely the individuals relevant with regard to clinical oncology populations - with the bias becoming more pronounced with increasing age:
 
-### Comment about Finetuning and Bias
+![bias-of-human-age-estimates-of-older-people](../assets/Human-Age-Estimation-Bias.SVG)
 
-The FaceAge model as implemented in the research study on clinical cancer populations did not have hyperparameters finetuned. The reasons for foregoing finetuning are manifold, but most importantly we discerned the introduction of age bias and overfitting when attempting to perform finetuning. Although finetuned models very accurately predicted chronologic age for the test sample population of healthy controls, often with MAE < 3 years, when a finetuned model was applied to clinical datasets, prognostic power to discern patient outcomes typically diminished compared to the non-finetuned model:
-
-
-
-
-
-
-
-
-Although the non-finetuned model is "noisier", possessing larger dispersion in estimated age range than the finetuned model, the greater magnitude of dispersion between individuals correlated with relative survival outcomes between patients in the cohort, and thus with biological age, whereby finetuning was found to weaken or eliminate this relational prognostic component.
-
+Of note, although we did not finetune the model for this study, this does not preclude us from doing so in future iterations of the model if we are able to mitigate the negative impacts of finetuning on clinical prognostication. This is an area of active research for our group.
 
