@@ -31,7 +31,12 @@ Training was carried out on paired GPUs using `Keras` with `Tensorflow` backend,
 Example model validation on an independent curated dataset derived from the UTK database can be found here: [Model Validation Example](../notebooks#readme), which enables the user to reproduce some of the figures in the Extended Data section of the manuscript.
 
 
-## Comment about Finetuning and Bias
+
+
+
+
+
+### Comment about Finetuning and Bias
 
 The FaceAge model as implemented in the research study on clinical cancer populations did not have hyperparameters finetuned. The reasons for foregoing finetuning are manifold, but most importantly we discerned the introduction of age bias and overfitting when attempting to perform finetuning. Although finetuned models very accurately predicted chronologic age for the test sample population of healthy controls, often with MAE < 3 years, when a finetuned model was applied to clinical datasets, prognostic power to discern patient outcomes typically diminished compared to the non-finetuned model:
 
