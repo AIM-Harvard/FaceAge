@@ -16,7 +16,7 @@ The second stage of the pipeline takes the extracted face image and feeds it int
 
 The photographs age-labeled from 60 years old and onward were manually curacted to ensure image quality control and reduce error from noisy labels (see [Manual Quality Assurance](../data#manual-quality-assurance)). The following CONSORT-style diagram shows how the training dataset was constructed:
 
-
+![training-dataset-construction](../assets/FaceAge-Training-Data-Consort-Diagram.SVG)
 
 
 
