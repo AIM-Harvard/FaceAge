@@ -8,7 +8,7 @@ The pre-trained weights will be made available upon publication via [Zenodo](htt
 
 The FaceAge deep learning pipeline comprises two stages: a face location , and a feature encoding stage.
 
-![models-pipeline_overview](../assets/FaceAge-Model-Dev-Performance.svg)
+![models-pipeline_overview](../assets/FaceAge-Model-Dev-Performance.SVG)
 
 The first stage pre-processes the input data by locating the face within the photograph and defines a bounding box around it. The image is then cropped, resized, and normalized it. The face extraction is done using [a multi-task cascaded CNN (MTCNN)](https://github.com/ipazc/mtcnn) consisting of three sub-networks, P-Net, R-Net and O-Net. For additional details, please refer to the project repository.
 
