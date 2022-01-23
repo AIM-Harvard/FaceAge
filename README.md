@@ -34,7 +34,7 @@ Additional details on the content of the subdirectories and their structure can 
 
 # Environment Setup and Dependencies
 
-The original code was developed and tested using Python 3.6.5 on Ubuntu 18.04 with Tensorflow-gpu 1.8.0 and Cuda 9.1.85.
+The original code was developed and tested using Python 3.6.5 on Ubuntu 18.04 with Tensorflow-gpu 1.8.0 and CUDA 9.1.85.
 
 An online version of the pipeline was also tested using the environment described in the `environment-gpu.yaml` file (Python 3.6.13, CUDA 11.3.1, and libcudnn 8.2.1 - on Ubuntu 18.04), the environment described in `environment-cpu.yaml` (i.e., the same packages - but without GPU acceleration), and using the freely accessible Google Colab notebook (Python 3.7.12, CUDA 11.1, and libcudnn 7.6.5 - on Ubuntu 18.04). We recommend running the pipeline on an up-to-date environment to avoid [known problems](https://github.com/ipazc/mtcnn/issues/87) with the `MTCNN` library.
 
