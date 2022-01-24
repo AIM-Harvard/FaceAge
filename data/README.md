@@ -34,7 +34,7 @@ datagen = ImageDataGenerator(
         zoom_range=0.2,
         horizontal_flip=True,
         fill_mode='constant')
- ```
+```
 
 The randomized rebalancing randomly shuffles samples from each each category to supplement the augmented samples until the target number of samples per age category is achieved, in order to achieve an approximate uniform distribution
 
