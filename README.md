@@ -153,7 +153,7 @@ datagen = ImageDataGenerator(
 The randomized rebalancing randomly shuffles samples from each each category to supplement the augmented samples until the target number of samples per age category is achieved, in order to achieve an approximate uniform distribution
 
 <p align="center">
-  <img src="../assets/data-training.png" alt="data-training" width="800"/>
+  <img src="assets/data-training.png" alt="data-training" width="800"/>
 </p>
 
 
@@ -177,7 +177,7 @@ This script was used to import the human survey data from part 1 and 2 (stored o
 This script was used to manually cull images that met the photo QA exclusion criteria listed in the manuscript.
 
 <p align="center">
-  <img src="../assets/data-manual_qa.png" alt="data-manual_qa" width="550"/>
+  <img src="assets/data-manual_qa.png" alt="data-manual_qa" width="550"/>
 </p>
 
 <br>
@@ -186,7 +186,7 @@ This script was used to manually cull images that met the photo QA exclusion cri
 ### Example of Acceptable Image
 
 <p align="center">
-  <img src="../assets/data-acceptable_image.png" alt="data-acceptable_image" width="600"/>
+  <img src="assets/data-acceptable_image.png" alt="data-acceptable_image" width="600"/>
 </p>
 
 
@@ -197,7 +197,7 @@ This script was used to manually cull images that met the photo QA exclusion cri
 Exclusion reason: the original image, and therefore the cropped face, is of too-low quality.
 
 <p align="center">
-  <img src="../assets/data-disqualified_image.png" alt="data-disqualified_image" width="600"/>
+  <img src="assets/data-disqualified_image.png" alt="data-disqualified_image" width="600"/>
 </p>
 
 
@@ -219,7 +219,7 @@ For the time being, to ease the review process, the model weights are available 
 The FaceAge deep learning pipeline comprises two stages: a face localization and extraction stage, and a feature embedding stage with output linear regressor that provides the continuous estimate of biological age.
 
 <p align="center">
-  <img src="../assets/models-diagram.png" alt="models-diagram" width="800"/>
+  <img src="assets/models-diagram.png" alt="models-diagram" width="800"/>
 </p>
 
 The first stage pre-processes the input data by locating the face within the photograph and defines a bounding box around it. The image is then cropped, resized, and pixel values standard-normalized across all RGB channels. Face extraction is accomplished using [a multi-task cascaded CNN (MTCNN)](https://github.com/ipazc/mtcnn) implemented by Zhang et al. (IEEE Signal Processing Letters 23, 1499–1503, 2016). The extraction network is comprised of three sub-networks, namely a proposal network (`P-net`) that creates an initial set of bounding box candidates, of which similar boxes are merged then further refined (`R-net`) using bounding box regression and face landmark localization, then the third stage (`O-net`) makes more stringent use of face landmarks to optimize the final bounding box, achieving a cited test accuracy of 95%. For additional details, please refer to the project repository.
@@ -229,7 +229,7 @@ The second stage of the pipeline takes the extracted face image and feeds it int
 The network was adapted to biological age estimation by removing the output classification layer and replacing it with densely connected layers feeding a fully-connected output layer with linear activation function to perform the regression. Transfer learning was then applied to tune the weights of the last 281 of the 426 `Inception-ResNet v1` layers (Inception Block B1 onward) in addition to the fully-connected output layers, using the augmented and randomly rebalanced training dataset of N = 56,304 age-labelled face images derived from the `IMDb-Wiki` database (see [Augmentation and Rebalancing](#augmentation-and-rebalancing)). The photographs age-labeled from 60 years old and onward were manually curacted to ensure image quality control and reduce error from noisy labels for this clinically-relevant age group (see [Manual Quality Assurance](#manual-quality-assurance)). The following CONSORT-style diagram shows how the training dataset was constructed:
 
 <p align="center">
-  <img src="../assets/models-consort.png" alt="models-consort" width="400"/>
+  <img src="assets/models-consort.png" alt="models-consort" width="400"/>
 </p>
 
 
@@ -239,7 +239,7 @@ Training was carried out on paired GPUs using `Keras` with `Tensorflow` backend,
 
 Model performance was good for the age range that underwent manual curation and quality assurance (MAE = 4.09 years). Overall, MAE = 5.87 years for the entire dataset. This was deemed acceptable because the intent was on obtaining a better fit for ages 60 or older, being most clinically relevant to oncology populations, at the expense of not fitting the younger age range < 40 as well. Therefore, we accepted that images pertaining to the younger age labels contained higher heterogeneity, poorer image quality and some noisy or erroneous labels. Nevertheless, mean age difference was approximately zero for ages > 40, demonstrating the absence of an age bias in this clinically-relevant age range.
 
-![model-development-performance](../assets/FaceAge-Model-Dev-Performance.SVG)
+![model-development-performance](assets/FaceAge-Model-Dev-Performance.SVG)
 
 <br>
 <br>
@@ -253,13 +253,13 @@ Example model validation on an independent curated dataset derived from the `UTK
 
 The FaceAge model as implemented in the research study on clinical cancer populations did not have finetuning of model parameters. The reasons for foregoing finetuning are manifold, but most importantly we discerned introduction of age bias and overfitting when performing finetuning. Although finetuned FaceAge models could very accurately predict chronologic age for the test sample population of healthy controls, often with MAE < 3 years, when a finetuned model was applied to clinical datasets, prognostic power to discern patient outcomes typically diminished compared to the non-finetuned model:
 
-![fineutuning-FaceAge-on-ChaLearn-2015-dataset](../assets/FaceAge-Finetuning-Apparent-Age.SVG)
+![fineutuning-FaceAge-on-ChaLearn-2015-dataset](assets/FaceAge-Finetuning-Apparent-Age.SVG)
 
-![fineutuning-effect-clinical-prognostication](../assets/FaceAge-Finetuning-Effect-Prognostication.SVG)
+![fineutuning-effect-clinical-prognostication](assets/FaceAge-Finetuning-Effect-Prognostication.SVG)
 
 Therefore, it was preferrable to utilize the non-finetuned model for biological age estimation and outcomes prognostication, despite the base model being "noisier" (i.e. possessing larger dispersion in estimated age range) than the finetuned model. The greater magnitude of dispersion between individuals was found to correlate with relative survival outcomes between patients in the cohort, and thus with biological age, whereby finetuning was found to weaken or eliminate this relational prognostic component, likely in part due to overfitting to the smaller sample size of the finetuning cohort. Bias was also introduced by the idiosyncracies of the fine-tunining dataset, such as by the fact that when humans estimate apparent age, they tend to underestimate the ages of older individuals - precisely in the age-range relevant to clinical oncology populations - with the bias becoming more pronounced with increasing age:
 
-![bias-of-human-age-estimates-of-older-people](../assets/Human-Age-Estimation-Bias.SVG)
+![bias-of-human-age-estimates-of-older-people](assets/Human-Age-Estimation-Bias.SVG)
 
 Of note, although we did not finetune the model for this study in order to avoid issues of overfitting and introducing age-related bias, this does not preclude us from doing so in future iterations of the model if we are able to mitigate the negative impacts of finetuning on clinical prognostication. This is an area of active research for our group.
 
@@ -314,7 +314,7 @@ The data required to run the notebook will be made available through [Zenodo](ht
 Here follows a sample from the notebook:
 
 <p align="center">
-  <img src="../assets/notebooks-data_processing.png" alt="notebooks-data_processing" width="500"/>
+  <img src="assets/notebooks-data_processing.png" alt="notebooks-data_processing" width="500"/>
 </p>
 
 ```
@@ -336,7 +336,7 @@ Here follows a sample from the notebook:
 <br>
 
 <p align="center">
-  <img src="../assets/notebooks-extended_data.png" alt="notebooks-extended_data" width="800"/>
+  <img src="assets/notebooks-extended_data.png" alt="notebooks-extended_data" width="800"/>
 </p>
 
 
