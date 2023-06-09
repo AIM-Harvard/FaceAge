@@ -39,12 +39,22 @@ df_whole <- structure(list(mean  = c(NA, 1.428, 1.156, 1.213, 1.151),
                       row.names = c(NA, -5L), 
                       class = "data.frame")
 
-pvals_whole = c("p value", "< 0.001", "< 0.001", "< 0.001", "0.0013")
+hr_whole = c("HR (95% CI)",
+             "1.428 (1.351-1.510)",
+             "1.156 (1.063-1.258)",
+             "1.213 (1.114-1.321)",
+             "1.151 (1.056-1.254)")
+
+pvals_whole = c("p value",
+                "< 0.001",
+                "< 0.001",
+                "< 0.001",
+                "0.0013")
 
 ## --------------------------------------------
 ## --------------------------------------------
 
-tabletext <- cbind(covariates, pvals_whole)
+tabletext <- cbind(covariates, hr_whole, pvals_whole)
 sel_df = df_whole
 
 font = "Times New Roman"
@@ -66,16 +76,18 @@ sel_df %>%
                             fpDrawCircleCI,
                             fpDrawCircleCI,
                             fpDrawCircleCI),
-             is.summary = c(rep(TRUE, 1), rep(FALSE, 4)),
+             is.summary = c(TRUE, rep(FALSE, 4)),
+             graph.pos = 2,
+             lineheight = unit(20,"mm"),
+             graphwidth = unit(100, 'mm'),
              xlog = FALSE,
              xlab = "HR",
-             xlim = c(0.5, 2.75),
              ci.vertices = TRUE,
              ci.vertices.height = 0.2,
              boxsize = .35,
              shapes_gp = styles,
              zero = 0.5,
-             xticks = c(0.5, 1, 1.5, 2, 2.5),
+             xticks = c(0.5, 1, 1.5, 2, 2.5, 3),
              
              ## -- vertical line --
              grid = structure(1,  gp = gpar(col = "black", lwd = .5, lty = 2)),

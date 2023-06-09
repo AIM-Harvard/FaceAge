@@ -38,21 +38,37 @@ df_breast <- structure(list(mean  = c(NA, 1.854, 1.456, 1.453),
                        row.names = c(NA, -4L), 
                        class = "data.frame")
 
-pvals_breast = c("p value", "< 0.001", "0.0159", "0.0165")
+hr_breast = c("HR (95% CI)",
+              "1.854 (1.505-2.284)",
+              "1.456 (1.073-1.975)",
+              "1.453 (1.071-1.972)")
+
+pvals_breast = c("p value",
+                 "< 0.001",
+                 "0.0159",
+                 "0.0165")
 
 
 ## --------------------------------------------
 
 ## -- GI COHORT --
 
-df_breast <- structure(list(mean  = c(NA, 1.854, 1.456, 1.453), 
-                            lower = c(NA, 1.505, 1.073, 1.071),
-                            upper = c(NA, 2.284, 1.975, 1.972)),
+df_gi <- structure(list(mean  = c(NA, 1.409, 1.163, 1.195), 
+                            lower = c(NA, 1.253, 0.976, 1.000),
+                            upper = c(NA, 1.585, 1.386, 1.427)),
                        .Names = c("mean", "lower", "upper"), 
                        row.names = c(NA, -4L), 
                        class = "data.frame")
 
-pvals_breast = c("p value", "< 0.001", "0.0159", "0.0165")
+hr_gi = c("HR (95% CI)",
+          "1.409 (1.253-1.585)",
+          "1.163 (0.976-1.386)",
+          "1.195 (1.000-1.427)")
+
+pvals_gi = c("p value",
+             "< 0.001",
+             "0.0920",
+             "0.0499")
 
 
 ## --------------------------------------------
@@ -66,7 +82,15 @@ df_gu <- structure(list(mean  = c(NA, 2.138, 1.387, 1.311),
                    row.names = c(NA, -4L), 
                    class = "data.frame")
 
-pvals_gu = c("p value", "< 0.001", "0.0143", "0.0464")
+hr_gu = c("HR (95% CI)",
+          "2.138 (1.768-2.584)",
+          "1.387 (1.068-1.801)",
+          "1.311 (1.004-1.712)")
+
+pvals_gu = c("p value",
+             "< 0.001",
+             "0.0143",
+             "0.0464")
 
 ## --------------------------------------------
 
@@ -79,12 +103,21 @@ df_lung <- structure(list(mean  = c(NA, 1.243, 1.079, 1.123),
                      row.names = c(NA, -4L), 
                      class = "data.frame")
 
-pvals_lung = c("p value", "< 0.001", "0.3085", "0.1240")
+hr_lung = c("HR (95% CI)",
+            "1.243 (1.108-1.395)",
+            "1.079 (0.932-1.249)",
+            "1.123 (0.969-1.303)")
+
+pvals_lung = c("p value",
+               "< 0.001",
+               "0.3085",
+               "0.1240")
 
 ## --------------------------------------------
 ## --------------------------------------------
 
-tabletext <- cbind(covariates, pvals_lung)
+
+tabletext <- cbind(covariates, hr_lung, pvals_lung)
 sel_df = df_lung
 
 font = "Times New Roman"
@@ -106,19 +139,21 @@ sel_df %>%
                             fpDrawCircleCI,
                             fpDrawCircleCI,
                             fpDrawCircleCI),
-             is.summary = c(rep(TRUE, 1), rep(FALSE, 4)),
+             is.summary = c(TRUE, rep(FALSE, 4)),
+             graph.pos = 2,
+             lineheight = unit(20,"mm"),
+             graphwidth = unit(100, 'mm'),
              xlog = FALSE,
              xlab = "HR",
-             xlim = c(0.5, 2.75),
              ci.vertices = TRUE,
              ci.vertices.height = 0.2,
              boxsize = .35,
              shapes_gp = styles,
              zero = 0.5,
-             xticks = c(0.5, 1, 1.5, 2, 2.5),
+             xticks = c(0.5, 1, 1.5, 2, 2.5, 3),
              
              ## -- vertical line --
-             grid = structure(1,  gp = gpar(col = "black", lwd = .5, lty = 2)),
+             grid = structure(1, gp = gpar(col = "black", lwd = .5, lty = 2)),
              
              ## -- horizontal line --
              hrzl_lines = list("3" = gpar(col = "black", lwd = .25, lty = 2)),

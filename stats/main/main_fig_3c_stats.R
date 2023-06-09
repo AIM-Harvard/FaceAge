@@ -82,7 +82,7 @@ maastro_oth = maastro_cur[which(maastro_cur$site == 'OTH'), ]
 
 ## -- STATS --
 
-sel_cohort = maastro_lung
+sel_cohort = maastro_gi
 
 ## -- UVA --
 

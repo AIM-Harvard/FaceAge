@@ -40,7 +40,17 @@ df_uva <- structure(list(mean  = c(NA, 1, 1.33300, 2.05257, 2.85671),
                     row.names = c(NA, -5L), 
                     class = "data.frame")
 
-pvals_uva = c("p value", " - ", "< 0.001", "< 0.001", "< 0.001")
+hr_uva = c("HR (95% CI)",
+            "-",
+            "1.333 (1.163-1.528)",
+            "2.053 (1.789-2.306)",
+            "2.857 (2.356-3.539)")
+
+pvals_uva = c("p value",
+              " - ",
+              "< 0.001",
+              "< 0.001",
+              "< 0.001")
 
 
 ## --------------------------------------------
@@ -54,14 +64,24 @@ df_mva <- structure(list(mean  = c(NA, 1, 0.98354, 1.25260, 1.46775),
                     row.names = c(NA, -5L), 
                     class = "data.frame")
 
-pvals_mva = c("p value", " - ", "0.83516", "0.01638", "0.00593")
+hr_mva = c("HR (95% CI)",
+           "-",
+           "0.984 (0.841-1.150)",
+           "1.253 (1.042-1.506)",
+           "1.468 (1.117-1.929)")
+
+pvals_mva = c("p value",
+              " - ",
+              "0.83516",
+              "0.01638",
+              "0.00593")
 
 ## --------------------------------------------
 ## --------------------------------------------
 
-cohort_name = "mva"
-tabletext <- cbind(covariates, pvals_mva)
-sel_df = df_mva
+cohort_name = "uva"
+tabletext <- cbind(covariates, hr_uva, pvals_uva)
+sel_df = df_uva
 
 font = "Times New Roman"
 
@@ -83,10 +103,12 @@ sel_df %>%
                             fpDrawCircleCI,
                             fpDrawCircleCI,
                             fpDrawCircleCI),
-             is.summary = c(rep(TRUE, 1), rep(FALSE, 4)),
+             is.summary = c(TRUE, rep(FALSE, 4)),
+             graph.pos = 2,
+             lineheight = unit(20,"mm"),
+             graphwidth = unit(100, 'mm'),
              xlog = FALSE,
              xlab = "HR",
-             xlim = c(0.5, 2.75),
              ci.vertices = TRUE,
              ci.vertices.height = 0.2,
              boxsize = .35,
