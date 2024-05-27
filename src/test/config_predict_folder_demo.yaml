@@ -1,0 +1,20 @@
+test:
+    # by default, relative paths   
+
+    # path to the repo root folder
+    base_path : "/home/dennis/git/FaceAge/"
+    
+    # name of the data subfolder (in the root repo dir)
+    data_folder_name : "data"
+
+    # name of the models subfolder (in the root repo dir)
+    models_folder_name : "models"
+
+    # name of the model file
+    model_name : "faceage_model"
+
+    # name of the outputs subfolder (in the root repo dir)
+    outputs_folder_name : "outputs"
+    
+    # by default, this should be stored under "data"
+    input_folder_name : "utk_hi-res_qa"
