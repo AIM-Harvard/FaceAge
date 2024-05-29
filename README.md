@@ -4,7 +4,7 @@ Decoding Biological Age from Face Photographs using Deep Learning
 
 If you use code or parts of this code in your work, please cite our publication:
 
-_Osbert Zalay, Dennis Bontempi, Danielle S. Bitterman, Nicolai Birkbak, Jack M. Qian, Hannah Roberts, Subha Perni, Andre Dekker, Tracy Balboni, Laura Warren, Monica Krishan, Benjamin H. Kann, Charles Swanton, Dirk De Ruysscher, Raymond H. Mak, Hugo J.W.L. Aerts - Decoding biological age from face photographs using deep learning_ (submitted).
+_Dennis Bontempi*, Osbert Zalay*, Danielle S. Bitterman, Nicolai Birkbak, Jack M. Qian, Hannah Roberts, Subha Perni, Andre Dekker, Tracy Balboni, Laura Warren, Monica Krishan, Benjamin H. Kann, Charles Swanton, Dirk De Ruysscher, Raymond H. Mak*, Hugo J.W.L. Aerts* - Decoding biological age from face photographs using deep learning_ (submitted).
 
 
 ## Table of Contents
