@@ -209,7 +209,7 @@ def main(config):
 
   print("\nSaving predictions at: '%s'... "%(outfile_path), end = "")
 
-  #age_pred_df.to_csv(outfile_path, index = False)
+  age_pred_df.to_csv(outfile_path, index = False)
 
   print("Done.")
 

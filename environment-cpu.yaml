@@ -21,7 +21,7 @@ dependencies:
     - numpy==1.19.5
     - opencv-python==4.5.4.60
     - pandas==1.1.5
-    - scikit-image==0.12.3
+    - scikit-image
     - seaborn==0.11.2
     - tensorboard==2.6.0
     - tensorboard-data-server==0.6.1
